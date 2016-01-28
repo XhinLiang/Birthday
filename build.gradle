@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath "com.android.databinding:dataBinder:1.0-rc4"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url "http://mvn.leancloud.cn/nexus/content/repositories/releases" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

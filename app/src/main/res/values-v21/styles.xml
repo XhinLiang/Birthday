@@ -1,0 +1,11 @@
+<resources>>
+
+    <style name="AppTheme" parent="@style/BaseTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="ScrollTheme" parent="AppTheme"/>
+
+</resources>
