@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.UserDetailsActivity">
+
+    <data>
+
+        <import type="java.util.Date" />
+
+        <import type="io.github.xhinliang.birthday.util.Utils" />
+
+        <variable
+            name="birthday"
+            type="Date" />
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="telephone"
+            type="String" />
+
+        <variable
+            name="group"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax">
+
+                    <io.github.xhinliang.lib.widget.VideoImageView
+                        android:id="@+id/ivPicture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/nothing"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/header" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:title="@string/add_contact"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/mrl_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleColor="?attr/colorPrimary"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@string/name" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@{name}"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="20sp"
+                            tools:text="@string/give_me_star" />
+
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/mrl_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleColor="?attr/colorPrimary"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@string/birthday" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@{Utils.getBirthday(birthday)}"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="20sp"
+                            tools:text="@string/give_me_star" />
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/mrl_telephone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleColor="?attr/colorPrimary"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@string/telephone" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@{telephone}"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="20sp"
+                            tools:text="@string/give_me_star" />
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/mrl_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleColor="?attr/colorPrimary"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@string/group" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@{group}"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="20sp"
+                            tools:text="@string/give_me_star" />
+
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/mrl_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleColor="?attr/colorPrimary"
+                    app:mrl_rippleOverlay="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@string/description" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="@{description}"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="20sp"
+                            tools:text="@string/give_me_star" />
+                    </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add_a_photo_white_24dp"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

@@ -1,5 +1,6 @@
 package io.github.xhinliang.birthday.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +11,9 @@ import android.view.MenuItem;
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
@@ -19,6 +23,7 @@ import rx.functions.Action1;
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private IncludeNavHeaderMainBinding headerBinding;
+    private List<CharSequence> contactGroups = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,6 @@ public class MainActivity extends BaseActivity {
 
         binding.drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-
 
         headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.include_nav_header_main, null, false);
         binding.navView.addHeaderView(headerBinding.getRoot());
@@ -47,6 +51,30 @@ public class MainActivity extends BaseActivity {
                     }
                 });
         initNavigationSelection();
+        initEvent();
+    }
+
+    private void initEvent() {
+        setRxClick(binding.fabAdd)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        startActivity(new Intent(MainActivity.this, NewContactActivity.class));
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initContactGroups();
+    }
+
+    private void initContactGroups() {
+        contactGroups.clear();
+        //在数据库中取出联系人分组列表数据
+        for (CharSequence title : contactGroups)
+            binding.navView.getMenu().add(title);
     }
 
     private void initNavigationSelection() {

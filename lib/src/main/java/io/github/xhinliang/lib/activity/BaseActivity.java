@@ -21,7 +21,7 @@ import rx.functions.Func1;
  */
 public abstract class BaseActivity extends RxAppCompatActivity {
 
-    protected void setHasHomeButton() {
+    protected void setHasBackButton() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);

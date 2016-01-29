@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="25dp"
-                    android:visibility="gone" />
+                    android:src="@drawable/ic_person_add_white_24dp" />
 
             </FrameLayout>
 
@@ -75,9 +75,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/activity_main_drawer">
-
-        </android.support.design.widget.NavigationView>
+            app:menu="@menu/activity_main_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

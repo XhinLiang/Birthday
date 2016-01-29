@@ -33,5 +33,4 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':lib')
-    compile 'cn.leancloud.android:avoscloud-sdk:v3.8.1'
 }
