@@ -8,7 +8,13 @@
 
         <import type="java.util.Date" />
 
-        <import type="io.github.xhinliang.birthday.util.Utils" />
+        <import type="io.github.xhinliang.birthday.util.MvvmUtils" />
+
+        <import type="android.net.Uri" />
+
+        <variable
+            name="image"
+            type="Uri" />
 
         <variable
             name="birthday"
@@ -152,7 +158,7 @@
                             android:paddingBottom="8dp"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:text="@{Utils.getBirthday(birthday)}"
+                            android:text="@{MvvmUtils.getBirthday(birthday)}"
                             android:textColor="@color/dark_grey"
                             android:textSize="20sp"
                             tools:text="@string/give_me_star" />
@@ -268,7 +274,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab_add_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.xhinliang.birthday">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -17,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.NewContactActivity" />
+        <activity android:name=".activity.ContactDetailsActivity" />
 
     </application>
 
