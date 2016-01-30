@@ -10,12 +10,6 @@
 
         <import type="io.github.xhinliang.birthday.util.MvvmUtils" />
 
-        <import type="android.net.Uri" />
-
-        <variable
-            name="image"
-            type="Uri" />
-
         <variable
             name="birthday"
             type="Date" />
@@ -272,13 +266,12 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add_photo"
+            android:id="@+id/fab_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_add_a_photo_white_24dp"
+            android:src="@drawable/ic_done_white_24dp"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end" />
 

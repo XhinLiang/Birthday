@@ -12,6 +12,17 @@ public class Contact extends RealmObject {
     private String name;
     private String telephone;
     private Date birthday;
+    private String description;
+    private String group;
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public String getName() {
         return name;
@@ -53,6 +64,5 @@ public class Contact extends RealmObject {
         this.group = group;
     }
 
-    private String description;
-    private String group;
+
 }

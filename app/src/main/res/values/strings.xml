@@ -27,5 +27,8 @@
     <string name="success">Success</string>
     <string name="select">Select</string>
     <string name="fail_to_load_image">Fail to load image</string>
+    <string name="result">Result</string>
+    <string name="fail_to_add_contact">Fail</string>
+    <string name="name_is_empty">Name is empty</string>
 
 </resources>

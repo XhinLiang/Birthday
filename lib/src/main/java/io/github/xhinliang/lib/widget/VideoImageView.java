@@ -15,6 +15,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 public class VideoImageView extends ImageView implements Animator.AnimatorListener {
 
     private boolean scale = false;
+    private boolean animate = true;
 
 
     public VideoImageView(Context context) {
@@ -32,14 +33,14 @@ public class VideoImageView extends ImageView implements Animator.AnimatorListen
         nextAnimation();
     }
 
-
     private void nextAnimation() {
+        if (!animate && !scale)
+            return;
         AnimatorSet anim = new AnimatorSet();
         if (scale) {
             anim.playTogether(ObjectAnimator.ofFloat(this, "scaleX", 1.5f, 1f),
                     ObjectAnimator.ofFloat(this, "scaleY", 1.5f, 1f));
-        }
-        else {
+        } else {
             anim.playTogether(ObjectAnimator.ofFloat(this, "scaleX", 1, 1.5f),
                     ObjectAnimator.ofFloat(this, "scaleY", 1, 1.5f));
         }
@@ -49,20 +50,24 @@ public class VideoImageView extends ImageView implements Animator.AnimatorListen
         scale = !scale;
     }
 
-
-    @Override public void onAnimationCancel(Animator arg0) {
+    public void setAnimate(boolean animate) {
+        this.animate = animate;
     }
 
+    @Override
+    public void onAnimationCancel(Animator arg0) {
+    }
 
-    @Override public void onAnimationEnd(Animator animator) {
+    @Override
+    public void onAnimationEnd(Animator animator) {
         nextAnimation();
     }
 
-
-    @Override public void onAnimationRepeat(Animator arg0) {
+    @Override
+    public void onAnimationRepeat(Animator arg0) {
     }
 
-
-    @Override public void onAnimationStart(Animator arg0) {
+    @Override
+    public void onAnimationStart(Animator arg0) {
     }
 }

@@ -1,6 +1,5 @@
 package io.github.xhinliang.birthday.model;
 
-import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -9,7 +8,6 @@ import io.realm.RealmObject;
  */
 public class Group extends RealmObject {
     private String name;
-    private RealmList<Contact> contacts;
 
     public String getName() {
         return name;
@@ -17,13 +15,5 @@ public class Group extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public RealmList<Contact> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(RealmList<Contact> contacts) {
-        this.contacts = contacts;
     }
 }

@@ -7,19 +7,23 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
+import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.lib.activity.BaseActivity;
 import io.realm.Realm;
@@ -39,8 +43,10 @@ public class ContactDetailsActivity extends BaseActivity {
 
     private static final int SELECT_PIC = 100;
     private static final int MAX_IMAGE_SIZE = 1000;
+    private static final String DIALOG_TAG = "DatePickerDialog";
 
     private ActivityContactDetailsBinding binding;
+    private String picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class ContactDetailsActivity extends BaseActivity {
     }
 
     private void initEvent() {
+        //用户未设置图片时没有动画
+        binding.ivPicture.setAnimate(false);
         initTextEvent(binding.mrlName, getString(R.string.name), binding.getName(), new setTextCallback() {
             @Override
             public void onConfirm(String text) {
@@ -140,16 +148,53 @@ public class ContactDetailsActivity extends BaseActivity {
                         dpd.setThemeDark(true);
                         dpd.vibrate(false);
                         dpd.showYearPickerFirst(true);
-                        dpd.show(getFragmentManager(), "DatePickerDialog");
+                        dpd.show(getFragmentManager(), DIALOG_TAG);
                     }
                 });
 
-        setRxClick(binding.fabAddPhoto)
+        setRxClick(binding.fabDone)
+                .filter(new Func1<Void, Boolean>() {
+                    @Override
+                    public Boolean call(Void aVoid) {
+                        if (TextUtils.isEmpty(binding.getName())) {
+                            showSimpleDialog(R.string.fail_to_add_contact, R.string.name_is_empty);
+                            return false;
+                        }
+                        return true;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .map(new Func1<Void, Void>() {
+                    @Override
+                    public Void call(Void aVoid) {
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        Contact contact = realm.createObject(Contact.class);
+                        contact.setName(binding.getName());
+                        contact.setGroup(binding.getGroup());
+                        contact.setBirthday(binding.getBirthday());
+                        contact.setDescription(binding.getDescription());
+                        contact.setTelephone(binding.getTelephone());
+                        contact.setPicture(picture);
+                        realm.commitTransaction();
+                        return null;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);//ACTION_OPEN_DOCUMENT
+                        showSimpleDialog(R.string.result, R.string.success);
+                    }
+                });
+
+        setRxClick(binding.ivPicture)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
                         startActivityForResult(intent, SELECT_PIC);
                     }
@@ -162,35 +207,60 @@ public class ContactDetailsActivity extends BaseActivity {
             return;
         switch (requestCode) {
             case SELECT_PIC:
-                try {
-                    Bitmap bitmap = getCompressBitmap(intent.getData(), MAX_IMAGE_SIZE);
-                    binding.setImage(intent.getData());
-                    binding.ivPicture.setImageBitmap(bitmap);
-                } catch (FileNotFoundException e) {
-                    showSimpleDialog(R.string.fail_to_load_image);
-                }
+                handlePicture(intent);
         }
     }
 
-    public Bitmap getCompressBitmap(Uri uri, int maxSize) throws FileNotFoundException {
-        InputStream inputStream = getContentResolver().openInputStream(uri);
-        //注意此处的InputStream不需要手动close！！！
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        //第二个Rect的参数用来测量图片的边距，省略
-        BitmapFactory.decodeStream(inputStream, null, options);
-        options.inJustDecodeBounds = false;
-        int scale = 1;
-        //缩放比,用高或者宽其中较大的一个数据进行计算
-        if (options.outWidth > options.outHeight && options.outWidth > maxSize)
-            scale = options.outWidth / maxSize;
-        if (options.outWidth < options.outHeight && options.outWidth > maxSize)
-            scale = options.outHeight / maxSize;
-        scale++;
-        options.inSampleSize = scale;//设置采样率
-        //注意这里的inputStream需要重新生成
-        return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
+    private void handlePicture(Intent intent) {
+        Observable.just(intent.getData())
+                .observeOn(Schedulers.io())
+                .map(new Func1<Uri, Bitmap>() {
+                    @Override
+                    public Bitmap call(Uri uri) {
+                        try {
+                            return getCompressBitmap(uri);
+                        } catch (FileNotFoundException e) {
+                            showSimpleDialog(R.string.fail_to_load_image);
+                        }
+                        return null;
+                    }
+                })
+                .filter(new Func1<Bitmap, Boolean>() {
+                    @Override
+                    public Boolean call(Bitmap bitmap) {
+                        return bitmap == null;
+                    }
+                })
+                .filter(new Func1<Bitmap, Boolean>() {
+                    @Override
+                    public Boolean call(Bitmap bitmap) {
+                        String savePicture = String.format("avatar_%s_%d", binding.getName(), System.currentTimeMillis());
+                        File file = new File(getFilesDir().getAbsolutePath(), savePicture);
+                        try {
+                            FileOutputStream stream = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            stream.close();
+                        } catch (java.io.IOException e) {
+                            return false;
+                        } finally {
+                            bitmap.recycle();
+                        }
+                        picture = savePicture;
+                        return true;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<Bitmap>bindToLifecycle())
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+                        binding.ivPicture.setImageBitmap(bitmap);
+                        //设置了图片，动画开启
+                        binding.ivPicture.setAnimate(true);
+                    }
+                });
     }
+
 
     private void createNewGroup() {
         new MaterialDialog.Builder(this)
@@ -200,12 +270,6 @@ public class ContactDetailsActivity extends BaseActivity {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         addGroupToRealm(input);
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
                     }
                 })
                 .show();
@@ -279,6 +343,26 @@ public class ContactDetailsActivity extends BaseActivity {
                     }
                 })
                 .show();
+    }
+
+    public Bitmap getCompressBitmap(Uri uri) throws FileNotFoundException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        //注意此处的InputStream不需要手动close！！！
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        //第二个Rect的参数用来测量图片的边距，省略
+        BitmapFactory.decodeStream(inputStream, null, options);
+        options.inJustDecodeBounds = false;
+        int scale = 1;
+        //缩放比,用高或者宽其中较大的一个数据进行计算
+        if (options.outWidth > options.outHeight && options.outWidth > MAX_IMAGE_SIZE)
+            scale = options.outWidth / MAX_IMAGE_SIZE;
+        if (options.outWidth < options.outHeight && options.outWidth > MAX_IMAGE_SIZE)
+            scale = options.outHeight / MAX_IMAGE_SIZE;
+        scale++;
+        options.inSampleSize = scale;//设置采样率
+        //注意这里的inputStream需要重新生成
+        return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
     }
 
     private interface setTextCallback {
