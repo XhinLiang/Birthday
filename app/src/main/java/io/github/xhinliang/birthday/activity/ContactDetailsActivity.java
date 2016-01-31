@@ -102,17 +102,7 @@ public class ContactDetailsActivity extends BaseActivity {
                     public Boolean call(CharSequence[] groups) {
                         if (groups != null)
                             return true;
-                        new MaterialDialog.Builder(ContactDetailsActivity.this)
-                                .content(R.string.no_group_yet)
-                                .positiveText(R.string.confirm)
-                                .negativeText(R.string.cancel)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        createNewGroup();
-                                    }
-                                })
-                                .show();
+                        askForCreateNewGroup();
                         return false;
                     }
                 })
@@ -199,6 +189,20 @@ public class ContactDetailsActivity extends BaseActivity {
                         startActivityForResult(intent, SELECT_PIC);
                     }
                 });
+    }
+
+    private void askForCreateNewGroup() {
+        new MaterialDialog.Builder(ContactDetailsActivity.this)
+                .content(R.string.no_group_yet)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        createNewGroup();
+                    }
+                })
+                .show();
     }
 
     @Override
