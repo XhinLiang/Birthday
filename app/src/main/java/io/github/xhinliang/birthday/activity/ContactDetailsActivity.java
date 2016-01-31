@@ -3,7 +3,6 @@ package io.github.xhinliang.birthday.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,6 +23,7 @@ import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
+import io.github.xhinliang.birthday.util.ImageUtils;
 import io.github.xhinliang.lib.activity.BaseActivity;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -41,8 +40,7 @@ import rx.schedulers.Schedulers;
  */
 public class ContactDetailsActivity extends BaseActivity {
 
-    private static final int SELECT_PIC = 100;
-    private static final int MAX_IMAGE_SIZE = 1000;
+    private static final int REQUEST_SELECT_PIC = 0x100;
     private static final String DIALOG_TAG = "DatePickerDialog";
 
     private ActivityContactDetailsBinding binding;
@@ -86,13 +84,15 @@ public class ContactDetailsActivity extends BaseActivity {
                 .map(new Func1<Void, CharSequence[]>() {
                     @Override
                     public CharSequence[] call(Void aVoid) {
-                        RealmQuery<Group> query = Realm.getDefaultInstance().where(Group.class);
+                        Realm realm = Realm.getDefaultInstance();
+                        RealmQuery<Group> query = realm.where(Group.class);
                         RealmResults<Group> groups = query.findAll();
                         if (groups.size() == 0)
                             return null;
                         CharSequence[] groupNames = new CharSequence[groups.size()];
                         for (int i = 0; i < groups.size(); ++i)
                             groupNames[i] = groups.get(i).getName();
+                        realm.close();
                         return groupNames;
                     }
                 })
@@ -167,6 +167,7 @@ public class ContactDetailsActivity extends BaseActivity {
                         contact.setTelephone(binding.getTelephone());
                         contact.setPicture(picture);
                         realm.commitTransaction();
+                        realm.close();
                         return null;
                     }
                 })
@@ -186,7 +187,7 @@ public class ContactDetailsActivity extends BaseActivity {
                     public void call(Void aVoid) {
                         Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
-                        startActivityForResult(intent, SELECT_PIC);
+                        startActivityForResult(intent, REQUEST_SELECT_PIC);
                     }
                 });
     }
@@ -210,7 +211,7 @@ public class ContactDetailsActivity extends BaseActivity {
         if (resultCode != RESULT_OK)
             return;
         switch (requestCode) {
-            case SELECT_PIC:
+            case REQUEST_SELECT_PIC:
                 handlePicture(intent);
         }
     }
@@ -222,19 +223,24 @@ public class ContactDetailsActivity extends BaseActivity {
                     @Override
                     public Bitmap call(Uri uri) {
                         try {
-                            return getCompressBitmap(uri);
+                            return ImageUtils.getCompressBitmap(uri, getContentResolver());
                         } catch (FileNotFoundException e) {
-                            showSimpleDialog(R.string.fail_to_load_image);
+                            return null;
                         }
-                        return null;
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(new Func1<Bitmap, Boolean>() {
                     @Override
                     public Boolean call(Bitmap bitmap) {
-                        return bitmap == null;
+                        if (bitmap == null) {
+                            showSimpleDialog(R.string.fail_to_load_image);
+                            return false;
+                        }
+                        return true;
                     }
                 })
+                .observeOn(Schedulers.io())
                 .filter(new Func1<Bitmap, Boolean>() {
                     @Override
                     public Boolean call(Bitmap bitmap) {
@@ -281,16 +287,16 @@ public class ContactDetailsActivity extends BaseActivity {
 
     private void addGroupToRealm(CharSequence input) {
         Observable.just(input.toString())
-                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Func1<String, Void>() {
                     @Override
-                    public Void call(String s) {
+                    public Void call(String groupName) {
                         Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
                         Group group = realm.createObject(Group.class);
-                        group.setName(s);
+                        group.setName(groupName);
                         realm.commitTransaction();
+                        realm.close();
                         return null;
                     }
                 })
@@ -347,26 +353,6 @@ public class ContactDetailsActivity extends BaseActivity {
                     }
                 })
                 .show();
-    }
-
-    public Bitmap getCompressBitmap(Uri uri) throws FileNotFoundException {
-        InputStream inputStream = getContentResolver().openInputStream(uri);
-        //注意此处的InputStream不需要手动close！！！
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        //第二个Rect的参数用来测量图片的边距，省略
-        BitmapFactory.decodeStream(inputStream, null, options);
-        options.inJustDecodeBounds = false;
-        int scale = 1;
-        //缩放比,用高或者宽其中较大的一个数据进行计算
-        if (options.outWidth > options.outHeight && options.outWidth > MAX_IMAGE_SIZE)
-            scale = options.outWidth / MAX_IMAGE_SIZE;
-        if (options.outWidth < options.outHeight && options.outWidth > MAX_IMAGE_SIZE)
-            scale = options.outHeight / MAX_IMAGE_SIZE;
-        scale++;
-        options.inSampleSize = scale;//设置采样率
-        //注意这里的inputStream需要重新生成
-        return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
     }
 
     private interface setTextCallback {

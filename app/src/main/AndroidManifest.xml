@@ -23,6 +23,8 @@
 
         <activity android:name=".activity.ContactDetailsActivity" />
 
+        <activity android:name=".JustTest" />
+
     </application>
 
 </manifest>
