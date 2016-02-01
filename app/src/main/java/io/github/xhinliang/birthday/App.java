@@ -11,13 +11,14 @@ import io.realm.RealmConfiguration;
  */
 public class App extends Application {
 
-    private static final long REALM_SCHEMA_VERSION = 2;
+    private static final long REALM_SCHEMA_VERSION = 0X1c;
 
     @Override
     public void onCreate() {
         super.onCreate();
         RealmConfiguration configuration = new RealmConfiguration.Builder(this)
                 .schemaVersion(REALM_SCHEMA_VERSION)
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
     }

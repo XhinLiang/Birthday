@@ -11,24 +11,38 @@ import android.view.MenuItem;
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import io.github.xhinliang.birthday.R;
+import io.github.xhinliang.birthday.adapter.ContactAdapter;
 import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
-import io.github.xhinliang.lib.activity.BaseActivity;
+import io.github.xhinliang.birthday.model.Group;
+import io.github.xhinliang.lib.activity.RealmActivity;
+import io.realm.RealmResults;
 import rx.functions.Action1;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends RealmActivity implements ContactAdapter.Listener{
+
     private ActivityMainBinding binding;
     private IncludeNavHeaderMainBinding headerBinding;
-    private List<CharSequence> contactGroups = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.include_nav_header_main, null, false);
+        initView();
+        initNavigationSelection();
+        initEvent();
+        initContactGroups();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+//        RealmResults<Contact> contacts = realm.where(Contact.class).findAllAsync();
+//        binding.rvContacts.setAdapter(new ContactAdapter(this, contacts, this, Glide.with(this));
+    }
+
+    private void initView() {
         setSupportActionBar(binding.toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout,
@@ -37,7 +51,6 @@ public class MainActivity extends BaseActivity {
         binding.drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.include_nav_header_main, null, false);
         binding.navView.addHeaderView(headerBinding.getRoot());
 
         RxNavigationView.itemSelections(binding.navView)
@@ -46,12 +59,9 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void call(MenuItem menuItem) {
                         setTabSelection(menuItem);
-                        RxDrawerLayout.open(binding.drawerLayout, GravityCompat.START)
-                                .call(false);
+                        RxDrawerLayout.open(binding.drawerLayout, GravityCompat.START).call(false);
                     }
                 });
-        initNavigationSelection();
-        initEvent();
     }
 
     private void initEvent() {
@@ -59,26 +69,32 @@ public class MainActivity extends BaseActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        startActivity(new Intent(MainActivity.this, ContactDetailsActivity.class));
+                        startActivity(new Intent(MainActivity.this, AddContactActivity.class));
                     }
                 });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initContactGroups();
-    }
-
     private void initContactGroups() {
-        contactGroups.clear();
-        //在数据库中取出联系人分组列表数据
-        for (CharSequence title : contactGroups)
-            binding.navView.getMenu().add(title);
+        realm.where(Group.class)
+                .findAllAsync()
+                .asObservable()
+                .compose(this.<RealmResults<Group>>bindToLifecycle())
+                .subscribe(new Action1<RealmResults<Group>>() {
+                    @Override
+                    public void call(RealmResults<Group> groups) {
+                        for (int i = 1; i < 10; ++i)
+                            binding.navView.getMenu().getItem(i).setVisible(false);
+                        for (int i = 0; i < groups.size(); ++i) {
+                            MenuItem item = binding.navView.getMenu().getItem(i + 1);
+                            item.setTitle(groups.get(i).getName());
+                            item.setVisible(true);
+                        }
+                    }
+                });
     }
 
     private void initNavigationSelection() {
-        binding.navView.setCheckedItem(R.id.all_friend);
+        binding.navView.setCheckedItem(R.id.menu_item_all_friend);
     }
 
     private void setTabSelection(MenuItem menuItem) {
@@ -88,7 +104,6 @@ public class MainActivity extends BaseActivity {
             case R.id.me:
                 return;
             case R.id.setting:
-                return;
         }
     }
 
@@ -100,5 +115,10 @@ public class MainActivity extends BaseActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onUserItemClick(ContactAdapter.ViewHolder holder) {
+
     }
 }

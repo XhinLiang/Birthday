@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ContactDetailsActivity" />
+        <activity android:name=".activity.AddContactActivity" />
 
         <activity android:name=".JustTest" />
 

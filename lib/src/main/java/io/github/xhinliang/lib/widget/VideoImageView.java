@@ -34,7 +34,7 @@ public class VideoImageView extends ImageView implements Animator.AnimatorListen
     }
 
     private void nextAnimation() {
-        if (!animate && !scale)
+        if (!animate)
             return;
         AnimatorSet anim = new AnimatorSet();
         if (scale) {

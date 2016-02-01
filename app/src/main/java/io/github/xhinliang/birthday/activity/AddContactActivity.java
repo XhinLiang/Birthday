@@ -24,8 +24,8 @@ import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.birthday.util.ImageUtils;
-import io.github.xhinliang.lib.activity.BaseActivity;
-import io.realm.Realm;
+import io.github.xhinliang.birthday.util.XLog;
+import io.github.xhinliang.lib.activity.RealmActivity;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import rx.Observable;
@@ -38,13 +38,14 @@ import rx.schedulers.Schedulers;
  * Created by xhinliang on 16-1-28.
  * xhinliang@gmail.com
  */
-public class ContactDetailsActivity extends BaseActivity {
+public class AddContactActivity extends RealmActivity {
 
     private static final int REQUEST_SELECT_PIC = 0x100;
     private static final String DIALOG_TAG = "DatePickerDialog";
+    private static final String TAG = "ContactDetailsActivity";
 
     private ActivityContactDetailsBinding binding;
-    private String picture;
+    private String pictureName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,37 +81,40 @@ public class ContactDetailsActivity extends BaseActivity {
         });
 
         setRxClick(binding.mrlGroup)
-                .observeOn(Schedulers.io())
-                .map(new Func1<Void, CharSequence[]>() {
+                .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
                     @Override
-                    public CharSequence[] call(Void aVoid) {
-                        Realm realm = Realm.getDefaultInstance();
+                    public Observable<RealmResults<Group>> call(Void aVoid) {
                         RealmQuery<Group> query = realm.where(Group.class);
-                        RealmResults<Group> groups = query.findAll();
+                        return query.findAllAsync().asObservable();
+                    }
+                })
+                        // isLoaded is true when query is completed
+                .filter(new Func1<RealmResults<Group>, Boolean>() {
+                    @Override
+                    public Boolean call(RealmResults<Group> groups) {
+                        return groups.isLoaded();
+                    }
+                })
+                .map(new Func1<RealmResults<Group>, CharSequence[]>() {
+                    @Override
+                    public CharSequence[] call(RealmResults<Group> groups) {
+                        XLog.d(TAG, "Realm launch group result, size " + groups.size());
                         if (groups.size() == 0)
                             return null;
                         CharSequence[] groupNames = new CharSequence[groups.size()];
                         for (int i = 0; i < groups.size(); ++i)
                             groupNames[i] = groups.get(i).getName();
-                        realm.close();
                         return groupNames;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter(new Func1<CharSequence[], Boolean>() {
-                    @Override
-                    public Boolean call(CharSequence[] groups) {
-                        if (groups != null)
-                            return true;
-                        askForCreateNewGroup();
-                        return false;
                     }
                 })
                 .compose(this.<CharSequence[]>bindToLifecycle())
                 .subscribe(new Action1<CharSequence[]>() {
                     @Override
                     public void call(CharSequence[] groups) {
-                        selectGroup(groups);
+                        if (groups == null)
+                            askForCreateNewGroup();
+                        else
+                            selectGroup(groups);
                     }
                 });
 
@@ -153,11 +157,9 @@ public class ContactDetailsActivity extends BaseActivity {
                         return true;
                     }
                 })
-                .observeOn(Schedulers.io())
                 .map(new Func1<Void, Void>() {
                     @Override
                     public Void call(Void aVoid) {
-                        Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
                         Contact contact = realm.createObject(Contact.class);
                         contact.setName(binding.getName());
@@ -165,9 +167,8 @@ public class ContactDetailsActivity extends BaseActivity {
                         contact.setBirthday(binding.getBirthday());
                         contact.setDescription(binding.getDescription());
                         contact.setTelephone(binding.getTelephone());
-                        contact.setPicture(picture);
+                        contact.setPicture(pictureName);
                         realm.commitTransaction();
-                        realm.close();
                         return null;
                     }
                 })
@@ -193,7 +194,7 @@ public class ContactDetailsActivity extends BaseActivity {
     }
 
     private void askForCreateNewGroup() {
-        new MaterialDialog.Builder(ContactDetailsActivity.this)
+        new MaterialDialog.Builder(AddContactActivity.this)
                 .content(R.string.no_group_yet)
                 .positiveText(R.string.confirm)
                 .negativeText(R.string.cancel)
@@ -252,10 +253,8 @@ public class ContactDetailsActivity extends BaseActivity {
                             stream.close();
                         } catch (java.io.IOException e) {
                             return false;
-                        } finally {
-                            bitmap.recycle();
                         }
-                        picture = savePicture;
+                        pictureName = savePicture;
                         return true;
                     }
                 })
@@ -279,43 +278,21 @@ public class ContactDetailsActivity extends BaseActivity {
                 .input(R.string.group_name, R.string.nothing, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        addGroupToRealm(input);
+                        realm.beginTransaction();
+                        Group group = realm.createObject(Group.class);
+                        group.setName(input.toString());
+                        realm.commitTransaction();
                     }
                 })
                 .show();
     }
 
-    private void addGroupToRealm(CharSequence input) {
-        Observable.just(input.toString())
-                .observeOn(Schedulers.io())
-                .map(new Func1<String, Void>() {
-                    @Override
-                    public Void call(String groupName) {
-                        Realm realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        Group group = realm.createObject(Group.class);
-                        group.setName(groupName);
-                        realm.commitTransaction();
-                        realm.close();
-                        return null;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        showSimpleDialog(R.string.success);
-                    }
-                });
-    }
-
     private void selectGroup(CharSequence[] groups) {
-        new MaterialDialog.Builder(ContactDetailsActivity.this)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(AddContactActivity.this)
                 .title(R.string.select_group)
                 .items(groups)
                 .positiveText(R.string.select)
                 .negativeText(R.string.cancel)
-                .neutralText(R.string.create)
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
@@ -328,8 +305,11 @@ public class ContactDetailsActivity extends BaseActivity {
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         createNewGroup();
                     }
-                })
-                .show();
+                });
+        //这里需要ids预留，限制为最多八个自定义群组
+        if (groups.length < 8)
+            builder.neutralText(R.string.create);
+        builder.show();
     }
 
     private void initTextEvent(View view, final String title, final CharSequence origin, final setTextCallback listener) {

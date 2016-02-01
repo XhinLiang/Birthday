@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="group_reserve_1" type="id" />
+    <item name="group_reserve_2" type="id" />
+    <item name="group_reserve_3" type="id" />
+    <item name="group_reserve_4" type="id" />
+    <item name="group_reserve_5" type="id" />
+    <item name="group_reserve_6" type="id" />
+    <item name="group_reserve_7" type="id" />
+    <item name="group_reserve_8" type="id" />
+</resources>

@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_group_group"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/all_friend"
+            android:id="@+id/menu_item_all_friend"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/all_friend" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:visible="false" />
+
+
     </group>
 
     <item android:title="@string/system">

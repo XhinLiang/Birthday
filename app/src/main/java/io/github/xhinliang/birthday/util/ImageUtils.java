@@ -34,4 +34,23 @@ public class ImageUtils {
         //注意这里的inputStream需要重新生成
         return BitmapFactory.decodeStream(resolver.openInputStream(uri), null, options);
     }
+
+    public static Bitmap compressImageByPixel(String imgPath, int maxSize) {
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        newOpts.inJustDecodeBounds = true;//只读边,不读内容
+        BitmapFactory.decodeFile(imgPath, newOpts);
+        newOpts.inJustDecodeBounds = false;
+        int scale = 1;
+        //缩放比,用高或者宽其中较大的一个数据进行计算
+        if (newOpts.outWidth > newOpts.outHeight && newOpts.outWidth > maxSize) {
+            scale = newOpts.outWidth / maxSize;
+        }
+        if (newOpts.outWidth < newOpts.outHeight && newOpts.outWidth > maxSize) {
+            scale = newOpts.outHeight / maxSize;
+        }
+        scale++;
+        newOpts.inSampleSize = scale;//设置采样率
+
+        return BitmapFactory.decodeFile(imgPath, newOpts);
+    }
 }
