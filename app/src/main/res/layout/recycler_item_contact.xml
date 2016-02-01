@@ -3,6 +3,7 @@
 
     <data>
 
+
         <import type="io.github.xhinliang.birthday.util.MvvmUtils" />
 
         <variable
@@ -25,7 +26,7 @@
             <ImageView
                 android:id="@+id/ivAvatar"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="6dip"
@@ -62,7 +63,6 @@
                 android:gravity="center_vertical"
                 android:text="@{contact.name}"
                 android:textSize="16sp" />
-
         </RelativeLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 </layout>
