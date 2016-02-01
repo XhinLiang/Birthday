@@ -1,29 +1,24 @@
 package io.github.xhinliang.birthday.adapter;
 
 import android.content.Context;
-import android.databinding.ObservableList;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.RecyclerItemContactBinding;
 import io.github.xhinliang.birthday.model.Contact;
-import io.github.xhinliang.birthday.reactivex.BindingRecyclerView;
+import io.github.xhinliang.birthday.rx.RealmRecyclerView;
 import io.github.xhinliang.birthday.util.ImageUtils;
+import io.realm.RealmResults;
 
-public class ContactAdapter extends BindingRecyclerView.ListAdapter<Contact, ContactAdapter.ViewHolder> {
+public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, ContactAdapter.ViewHolder> {
 
     private Listener listener;
-    private RequestManager requestManager;
 
-    public ContactAdapter(Context context, ObservableList<Contact> data, Listener listener, RequestManager requestManager) {
+    public ContactAdapter(Context context, RealmResults<Contact> data, Listener listener) {
         super(context, data);
         this.listener = listener;
-        this.requestManager = requestManager;
         setHasStableIds(true);
     }
 
@@ -39,20 +34,11 @@ public class ContactAdapter extends BindingRecyclerView.ListAdapter<Contact, Con
         // execute the binding immediately to ensure
         // the original size of RatioImageView is set before layout
         holder.binding.executePendingBindings();
-        holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(item.getPicture(), 200));
-        setupImage(holder.binding.ivAvatar, null);
+        if (!TextUtils.isEmpty(item.getPicture()))
+            holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(item.getPicture(), 200));
+        else
+            holder.binding.ivAvatar.setImageResource(R.drawable.ic_account_box_black_24dp);
         holder.itemView.setTag(item);
-    }
-
-    private void setupImage(ImageView image, String imageUrl) {
-        if (imageUrl == null || imageUrl.length() == 0) {
-            image.setImageResource(R.drawable.ic_account_box_black_24dp);
-            return;
-        }
-        requestManager.load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_error_black_24dp)
-                .into(image);
     }
 
     //重载这个方法并设置 RecyclerView#setHasStableIds能大幅度提高性能
@@ -66,7 +52,7 @@ public class ContactAdapter extends BindingRecyclerView.ListAdapter<Contact, Con
         void onUserItemClick(ViewHolder holder);
     }
 
-    public class ViewHolder extends BindingRecyclerView.ViewHolder<RecyclerItemContactBinding> {
+    public class ViewHolder extends RealmRecyclerView.ViewHolder<RecyclerItemContactBinding> {
 
         public ViewHolder(RecyclerItemContactBinding binding) {
             super(binding);
