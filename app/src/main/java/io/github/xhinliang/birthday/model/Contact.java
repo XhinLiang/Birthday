@@ -1,7 +1,11 @@
 package io.github.xhinliang.birthday.model;
 
+
+import org.parceler.Parcel;
+
 import java.util.Date;
 
+import io.realm.ContactRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
@@ -9,6 +13,7 @@ import io.realm.annotations.Required;
  * Created by xhinliang on 16-1-28.
  * xhinliang@gmail.com
  */
+@Parcel(implementations = {ContactRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {Contact.class})
 public class Contact extends RealmObject {
     public static final String FIELD_GROUP = "group";
     @Required
@@ -19,6 +24,9 @@ public class Contact extends RealmObject {
     private String description;
     private String group;
     private String picture;
+
+    public Contact() {
+    }
 
     public String getPicture() {
         return picture;

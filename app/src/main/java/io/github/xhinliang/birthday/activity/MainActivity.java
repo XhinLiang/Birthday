@@ -11,13 +11,14 @@ import android.view.MenuItem;
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
+import org.parceler.Parcels;
+
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.adapter.ContactAdapter;
 import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
-import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
 import io.realm.RealmResults;
 import rx.functions.Action1;
@@ -47,7 +48,9 @@ public class MainActivity extends RealmActivity {
         adapter = new ContactAdapter(this, contacts, new ContactAdapter.Listener() {
             @Override
             public void onContactItemClick(Contact contact) {
-                XLog.d(TAG, contact.getName());
+                Intent intent = new Intent(MainActivity.this, ContactDetailsActivity.class);
+                intent.putExtra(ContactDetailsActivity.EXTRA_CONTACT, Parcels.wrap(contact));
+                startActivity(intent);
             }
         });
         binding.rvContacts.setAdapter(adapter);
@@ -84,7 +87,7 @@ public class MainActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        startActivity(new Intent(MainActivity.this, AddContactActivity.class));
+                        startActivity(new Intent(MainActivity.this, ContactDetailsActivity.class));
                     }
                 });
     }
@@ -147,6 +150,5 @@ public class MainActivity extends RealmActivity {
         }
         super.onBackPressed();
     }
-
 
 }

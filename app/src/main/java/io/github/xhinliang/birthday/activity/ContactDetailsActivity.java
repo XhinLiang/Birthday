@@ -11,8 +11,9 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.jakewharton.rxbinding.view.RxView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,11 +40,13 @@ import rx.schedulers.Schedulers;
  * Created by xhinliang on 16-1-28.
  * xhinliang@gmail.com
  */
-public class AddContactActivity extends RealmActivity {
+public class ContactDetailsActivity extends RealmActivity {
 
     private static final int REQUEST_SELECT_PIC = 0x100;
     private static final String DIALOG_TAG = "DatePickerDialog";
     private static final String TAG = "ContactDetailsActivity";
+    public static final String EXTRA_CONTACT = "Contact";
+
 
     private ActivityContactDetailsBinding binding;
     private String pictureName;
@@ -55,6 +58,16 @@ public class AddContactActivity extends RealmActivity {
         setSupportActionBar(binding.toolbar);
         setHasBackButton();
         initEvent();
+        checkIntent();
+    }
+
+    private void checkIntent() {
+        Contact contact = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_CONTACT));
+        binding.setName(contact.getName());
+        binding.setGroup(contact.getGroup());
+        binding.setTelephone(contact.getTelephone());
+        binding.setBirthday(contact.getBirthday());
+        binding.setDescription(contact.getDescription());
     }
 
     private void initEvent() {
@@ -80,29 +93,6 @@ public class AddContactActivity extends RealmActivity {
                 binding.setTelephone(text);
             }
         });
-
-        RxView.clicks(binding.mrlGroup)
-                .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
-                    @Override
-                    public Observable<RealmResults<Group>> call(Void aVoid) {
-                        RealmQuery<Group> query = realm.where(Group.class);
-                        return query.findAllAsync().asObservable();
-                    }
-                })
-                .filter(new Func1<RealmResults<Group>, Boolean>() {
-                    @Override
-                    public Boolean call(RealmResults<Group> groups) {
-                        return groups.isLoaded();
-                    }
-                })
-                .first()
-                .compose(this.<RealmResults<Group>>bindToLifecycle())
-                .subscribe(new Action1<RealmResults<Group>>() {
-                    @Override
-                    public void call(RealmResults<Group> groups) {
-                        XLog.d(TAG, "Realm launch group result, size " + groups.size());
-                    }
-                });
 
         setRxClick(binding.mrlGroup)
                 .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
@@ -141,7 +131,7 @@ public class AddContactActivity extends RealmActivity {
                     }
                 });
 
-        Func1<Void,Boolean> filter =new Func1<Void, Boolean>() {
+        Func1<Void, Boolean> filter = new Func1<Void, Boolean>() {
             @Override
             public Boolean call(Void aVoid) {
                 if (TextUtils.isEmpty(binding.getName())) {
@@ -225,7 +215,7 @@ public class AddContactActivity extends RealmActivity {
     }
 
     private void askForCreateNewGroup() {
-        new MaterialDialog.Builder(AddContactActivity.this)
+        new MaterialDialog.Builder(ContactDetailsActivity.this)
                 .content(R.string.no_group_yet)
                 .positiveText(R.string.confirm)
                 .negativeText(R.string.cancel)
@@ -319,7 +309,7 @@ public class AddContactActivity extends RealmActivity {
     }
 
     private void selectGroup(CharSequence[] groups) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(AddContactActivity.this)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(ContactDetailsActivity.this)
                 .title(R.string.select_group)
                 .items(groups)
                 .positiveText(R.string.select)
