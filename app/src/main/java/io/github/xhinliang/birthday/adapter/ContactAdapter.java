@@ -52,7 +52,7 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
 
     //一种在ViewHolder里实现点击事件的方法,绑定当前Adapter的Activity实现这个接口即可
     public interface Listener {
-        void onUserItemClick(ViewHolder holder);
+        void onContactItemClick(Contact contact);
     }
 
     public class ViewHolder extends RealmRecyclerView.ViewHolder<RecyclerItemContactBinding> {
@@ -62,7 +62,7 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onUserItemClick(ViewHolder.this);
+                    listener.onContactItemClick(data.get(ViewHolder.this.getAdapterPosition()));
                 }
             });
         }

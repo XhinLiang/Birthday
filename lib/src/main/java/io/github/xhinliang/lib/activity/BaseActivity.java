@@ -48,6 +48,16 @@ public abstract class BaseActivity extends RxAppCompatActivity {
                 .show();
     }
 
+    protected void showSimpleDialog(int titleRes, int contentRes,MaterialDialog.SingleButtonCallback callback) {
+        new MaterialDialog.Builder(this)
+                .title(titleRes)
+                .content(contentRes)
+                .positiveText(R.string.confirm)
+                .onPositive(callback)
+                .build()
+                .show();
+    }
+
     protected void showSimpleDialog(int titleRes, CharSequence content) {
         new MaterialDialog.Builder(this)
                 .title(titleRes)

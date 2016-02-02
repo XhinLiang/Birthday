@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 android:theme="@style/AppTheme.AppBarOverlay"
-                app:elevation="3dp">
+                app:elevation="@dimen/standard_elevation">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -44,8 +44,8 @@
                 android:id="@+id/rv_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="2.5dp"
-                android:paddingRight="2.5dp"
+                android:paddingLeft="@dimen/list_padding"
+                android:paddingRight="@dimen/list_padding"
                 android:scrollbars="none"
                 app:layoutManager="LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="25dp"
+                android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_person_add_white_24dp"
                 app:layout_anchor="@id/rv_contacts"
                 app:layout_anchorGravity="bottom|end"
@@ -70,7 +70,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/activity_main_drawer" />
+            app:menu="@menu/activity_main" />
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

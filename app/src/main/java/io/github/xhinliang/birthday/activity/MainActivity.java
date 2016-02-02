@@ -17,11 +17,12 @@ import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
 import io.realm.RealmResults;
 import rx.functions.Action1;
 
-public class MainActivity extends RealmActivity implements ContactAdapter.Listener {
+public class MainActivity extends RealmActivity {
 
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
@@ -43,7 +44,12 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
 
     private void initRecyclerView() {
         contacts = realm.where(Contact.class).findAllAsync();
-        adapter = new ContactAdapter(this, contacts, this);
+        adapter = new ContactAdapter(this, contacts, new ContactAdapter.Listener() {
+            @Override
+            public void onContactItemClick(Contact contact) {
+                XLog.d(TAG, contact.getName());
+            }
+        });
         binding.rvContacts.setAdapter(adapter);
     }
 
@@ -111,9 +117,7 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
             case R.id.menu_item_all_friend:
                 resetAdapterData();
                 return;
-            case R.id.menu_itme_about:
-                return;
-            case R.id.menu_item_me:
+            case R.id.menu_item_about:
                 return;
             case R.id.menu_item_setting:
                 return;
@@ -144,8 +148,5 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
         super.onBackPressed();
     }
 
-    @Override
-    public void onUserItemClick(ContactAdapter.ViewHolder holder) {
 
-    }
 }

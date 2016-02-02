@@ -141,6 +141,17 @@ public class AddContactActivity extends RealmActivity {
                     }
                 });
 
+        Func1<Void,Boolean> filter =new Func1<Void, Boolean>() {
+            @Override
+            public Boolean call(Void aVoid) {
+                if (TextUtils.isEmpty(binding.getName())) {
+                    showSimpleDialog(R.string.fail_to_add_contact, R.string.name_is_empty);
+                    return false;
+                }
+                return true;
+            }
+        };
+
         setRxClick(binding.mrlBirthday)
                 .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
@@ -170,16 +181,7 @@ public class AddContactActivity extends RealmActivity {
                 });
 
         setRxClick(binding.fabDone)
-                .filter(new Func1<Void, Boolean>() {
-                    @Override
-                    public Boolean call(Void aVoid) {
-                        if (TextUtils.isEmpty(binding.getName())) {
-                            showSimpleDialog(R.string.fail_to_add_contact, R.string.name_is_empty);
-                            return false;
-                        }
-                        return true;
-                    }
-                })
+                .filter(filter)
                 .map(new Func1<Void, Void>() {
                     @Override
                     public Void call(Void aVoid) {
@@ -200,11 +202,17 @@ public class AddContactActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        showSimpleDialog(R.string.result, R.string.success);
+                        showSimpleDialog(R.string.result, R.string.success, new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                finish();
+                            }
+                        });
                     }
                 });
 
         setRxClick(binding.ivPicture)
+                .filter(filter)
                 .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
                     @Override

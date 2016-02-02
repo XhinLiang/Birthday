@@ -3,6 +3,7 @@ package io.github.xhinliang.birthday.model;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 /**
  * Created by xhinliang on 16-1-28.
@@ -10,8 +11,9 @@ import io.realm.RealmObject;
  */
 public class Contact extends RealmObject {
     public static final String FIELD_GROUP = "group";
-
+    @Required
     private String name;
+
     private String telephone;
     private Date birthday;
     private String description;
