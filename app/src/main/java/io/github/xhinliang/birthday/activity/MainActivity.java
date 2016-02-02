@@ -17,12 +17,15 @@ import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import rx.functions.Action1;
 
 public class MainActivity extends RealmActivity implements ContactAdapter.Listener {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private IncludeNavHeaderMainBinding headerBinding;
 
@@ -39,8 +42,17 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
     }
 
     private void initRecyclerView() {
-        RealmResults<Contact> contacts = realm.where(Contact.class).findAllAsync();
+        final RealmResults<Contact> contacts = realm.where(Contact.class).findAllAsync();
         binding.rvContacts.setAdapter(new ContactAdapter(this, contacts, this));
+
+        contacts.addChangeListener(new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                for (Contact item : contacts)
+                    if (item.getPicture() != null)
+                        XLog.d(TAG, item.getPicture());
+            }
+        });
     }
 
     private void initView() {

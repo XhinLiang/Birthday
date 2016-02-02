@@ -14,10 +14,12 @@ import io.realm.RealmResults;
 
 public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, ContactAdapter.ViewHolder> {
 
+    private Context context;
     private Listener listener;
 
     public ContactAdapter(Context context, RealmResults<Contact> data, Listener listener) {
         super(context, data);
+        this.context = context;
         this.listener = listener;
         setHasStableIds(true);
     }
@@ -34,9 +36,10 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
         // execute the binding immediately to ensure
         // the original size of RatioImageView is set before layout
         holder.binding.executePendingBindings();
-        if (!TextUtils.isEmpty(item.getPicture()))
-            holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(item.getPicture(), 200));
-        else
+        if (!TextUtils.isEmpty(item.getPicture())) {
+            String imagePath = String.format("%s/%s", context.getFilesDir().getAbsolutePath(), item.getPicture());
+            holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(imagePath, 200));
+        } else
             holder.binding.ivAvatar.setImageResource(R.drawable.ic_account_box_black_24dp);
         holder.itemView.setTag(item);
     }

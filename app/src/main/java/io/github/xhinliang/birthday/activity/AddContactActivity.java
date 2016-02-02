@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jakewharton.rxbinding.view.RxView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
@@ -80,6 +81,29 @@ public class AddContactActivity extends RealmActivity {
             }
         });
 
+        RxView.clicks(binding.mrlGroup)
+                .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
+                    @Override
+                    public Observable<RealmResults<Group>> call(Void aVoid) {
+                        RealmQuery<Group> query = realm.where(Group.class);
+                        return query.findAllAsync().asObservable();
+                    }
+                })
+                .filter(new Func1<RealmResults<Group>, Boolean>() {
+                    @Override
+                    public Boolean call(RealmResults<Group> groups) {
+                        return groups.isLoaded();
+                    }
+                })
+                .first()
+                .compose(this.<RealmResults<Group>>bindToLifecycle())
+                .subscribe(new Action1<RealmResults<Group>>() {
+                    @Override
+                    public void call(RealmResults<Group> groups) {
+                        XLog.d(TAG, "Realm launch group result, size " + groups.size());
+                    }
+                });
+
         setRxClick(binding.mrlGroup)
                 .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
                     @Override
@@ -88,7 +112,6 @@ public class AddContactActivity extends RealmActivity {
                         return query.findAllAsync().asObservable();
                     }
                 })
-                        // isLoaded is true when query is completed
                 .filter(new Func1<RealmResults<Group>, Boolean>() {
                     @Override
                     public Boolean call(RealmResults<Group> groups) {
@@ -245,8 +268,8 @@ public class AddContactActivity extends RealmActivity {
                 .filter(new Func1<Bitmap, Boolean>() {
                     @Override
                     public Boolean call(Bitmap bitmap) {
-                        String savePicture = String.format("avatar_%s_%d", binding.getName(), System.currentTimeMillis());
-                        File file = new File(getFilesDir().getAbsolutePath(), savePicture);
+                        String savePath = String.format("avatar_%s_%d", binding.getName(), System.currentTimeMillis());
+                        File file = new File(getFilesDir().getAbsolutePath(), savePath);
                         try {
                             FileOutputStream stream = new FileOutputStream(file);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -254,7 +277,7 @@ public class AddContactActivity extends RealmActivity {
                         } catch (java.io.IOException e) {
                             return false;
                         }
-                        pictureName = savePicture;
+                        pictureName = savePath;
                         return true;
                     }
                 })

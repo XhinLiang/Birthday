@@ -17,12 +17,15 @@
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:fitsSystemWindows="true"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:elevation="3dp">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -37,28 +40,25 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <FrameLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize">
+                android:paddingLeft="2.5dp"
+                android:paddingRight="2.5dp"
+                android:scrollbars="none"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_contacts"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:scrollbars="none"
-                    app:layoutManager="LinearLayoutManager" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="25dp"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:src="@drawable/ic_person_add_white_24dp" />
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="25dp"
-                    android:src="@drawable/ic_person_add_white_24dp" />
-
-            </FrameLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 
