@@ -17,9 +17,7 @@ import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
-import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import rx.functions.Action1;
 
@@ -28,6 +26,8 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private IncludeNavHeaderMainBinding headerBinding;
+    private RealmResults<Contact> contacts;
+    private ContactAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +42,9 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
     }
 
     private void initRecyclerView() {
-        final RealmResults<Contact> contacts = realm.where(Contact.class).findAllAsync();
-        binding.rvContacts.setAdapter(new ContactAdapter(this, contacts, this));
-
-        contacts.addChangeListener(new RealmChangeListener() {
-            @Override
-            public void onChange() {
-                for (Contact item : contacts)
-                    if (item.getPicture() != null)
-                        XLog.d(TAG, item.getPicture());
-            }
-        });
+        contacts = realm.where(Contact.class).findAllAsync();
+        adapter = new ContactAdapter(this, contacts, this);
+        binding.rvContacts.setAdapter(adapter);
     }
 
     private void initView() {
@@ -72,9 +64,13 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
                     @Override
                     public void call(MenuItem menuItem) {
                         setTabSelection(menuItem);
-                        RxDrawerLayout.open(binding.drawerLayout, GravityCompat.START).call(false);
+                        closeDrawer();
                     }
                 });
+    }
+
+    private void closeDrawer() {
+        RxDrawerLayout.open(binding.drawerLayout, GravityCompat.START).call(false);
     }
 
     private void initEvent() {
@@ -112,12 +108,30 @@ public class MainActivity extends RealmActivity implements ContactAdapter.Listen
 
     private void setTabSelection(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.about:
+            case R.id.menu_item_all_friend:
+                resetAdapterData();
                 return;
-            case R.id.me:
+            case R.id.menu_itme_about:
                 return;
-            case R.id.setting:
+            case R.id.menu_item_me:
+                return;
+            case R.id.menu_item_setting:
+                return;
         }
+        String groupName = menuItem.getTitle().toString();
+        resetAdapterData(groupName);
+    }
+
+    private void resetAdapterData(String groupName) {
+        contacts = realm.where(Contact.class)
+                .equalTo(Contact.FIELD_GROUP, groupName)
+                .findAllAsync();
+        adapter.resetDataSet(contacts);
+    }
+
+    private void resetAdapterData() {
+        contacts = realm.where(Contact.class).findAllAsync();
+        adapter.resetDataSet(contacts);
     }
 
     @Override

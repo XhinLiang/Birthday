@@ -9,6 +9,8 @@ import io.realm.RealmObject;
  * xhinliang@gmail.com
  */
 public class Contact extends RealmObject {
+    public static final String FIELD_GROUP = "group";
+
     private String name;
     private String telephone;
     private Date birthday;

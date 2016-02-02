@@ -44,7 +44,7 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
         holder.itemView.setTag(item);
     }
 
-    //重载这个方法并设置 RecyclerView#setHasStableIds能大幅度提高性能
+    //重载这个方法并设置 RecyclerView#setHasStableIds 能大幅度提高性能
     @Override
     public long getItemId(int position) {
         return data.get(position).getName().hashCode();

@@ -56,8 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="25dp"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:src="@drawable/ic_person_add_white_24dp" />
+                android:src="@drawable/ic_person_add_white_24dp"
+                app:layout_anchor="@id/rv_contacts"
+                app:layout_anchorGravity="bottom|end"
+                app:layout_behavior="io.github.xhinliang.birthday.view.FABScrollBehavior" />
 
 
         </android.support.design.widget.CoordinatorLayout>

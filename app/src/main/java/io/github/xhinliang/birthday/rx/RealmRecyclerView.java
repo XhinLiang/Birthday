@@ -16,9 +16,9 @@ public class RealmRecyclerView {
 
     public static abstract class ListAdapter<T extends RealmObject, VH extends ViewHolder> extends RecyclerView.Adapter<VH> {
 
-        protected final LayoutInflater inflater;
-        protected final RealmResults<T> data;
-        private final AtomicInteger refs = new AtomicInteger();
+        protected LayoutInflater inflater;
+        protected RealmResults<T> data;
+        private AtomicInteger refs = new AtomicInteger();
 
         private final RealmChangeListener listener = new RealmChangeListener() {
             @Override
@@ -50,7 +50,15 @@ public class RealmRecyclerView {
                 data.removeChangeListener(listener);
             }
         }
+
+        public void resetDataSet(RealmResults<T> dataSet) {
+            data.removeChangeListeners();
+            data = dataSet;
+            notifyDataSetChanged();
+            data.addChangeListener(listener);
+        }
     }
+
 
     public static class ViewHolder<V extends ViewDataBinding> extends RecyclerView.ViewHolder {
 
