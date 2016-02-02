@@ -16,6 +16,7 @@ import io.realm.annotations.Required;
 @Parcel(implementations = {ContactRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {Contact.class})
 public class Contact extends RealmObject {
     public static final String FIELD_GROUP = "group";
+
     @Required
     private String name;
 

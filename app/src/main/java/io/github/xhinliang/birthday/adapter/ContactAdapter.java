@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
+
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.RecyclerItemContactBinding;
 import io.github.xhinliang.birthday.model.Contact;
@@ -37,7 +39,7 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
         // the original size of RatioImageView is set before layout
         holder.binding.executePendingBindings();
         if (!TextUtils.isEmpty(item.getPicture())) {
-            String imagePath = String.format("%s/%s", context.getFilesDir().getAbsolutePath(), item.getPicture());
+            String imagePath = String.format("%s%s%s", context.getFilesDir().getAbsolutePath(), File.separator, item.getPicture());
             holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(imagePath, 200));
         } else
             holder.binding.ivAvatar.setImageResource(R.drawable.ic_account_box_black_24dp);

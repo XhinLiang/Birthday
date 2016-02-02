@@ -62,6 +62,8 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void checkIntent() {
+        if (getIntent()==null)
+            return;
         Contact contact = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_CONTACT));
         binding.setName(contact.getName());
         binding.setGroup(contact.getGroup());
