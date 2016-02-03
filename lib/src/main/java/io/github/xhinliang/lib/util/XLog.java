@@ -1,8 +1,9 @@
-package io.github.xhinliang.birthday.util;
+package io.github.xhinliang.lib.util;
 
 import android.util.Log;
 
-import io.github.xhinliang.birthday.BuildConfig;
+import io.github.xhinliang.lib.BuildConfig;
+
 
 /**
  * Created by xhinliang on 16-2-1.

@@ -1,4 +1,4 @@
-package io.github.xhinliang.birthday.util;
+package io.github.xhinliang.lib.util;
 
 import android.content.ContentResolver;
 import android.graphics.Bitmap;

@@ -17,7 +17,6 @@ import rx.Observable;
 public class BaseFragment extends RxFragment {
     protected Observable<Void> setRxView(View view) {
         return RxView.clicks(view)
-                .compose(this.<Void>bindToLifecycle())
                 .throttleFirst(500, TimeUnit.MILLISECONDS);
     }
 }

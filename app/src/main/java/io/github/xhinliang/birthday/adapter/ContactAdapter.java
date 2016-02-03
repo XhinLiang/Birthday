@@ -11,7 +11,7 @@ import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.RecyclerItemContactBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.rx.RealmRecyclerView;
-import io.github.xhinliang.birthday.util.ImageUtils;
+import io.github.xhinliang.lib.util.ImageUtils;
 import io.realm.RealmResults;
 
 public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, ContactAdapter.ViewHolder> {

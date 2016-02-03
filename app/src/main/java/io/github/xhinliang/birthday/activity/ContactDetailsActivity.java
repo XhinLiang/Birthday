@@ -26,8 +26,8 @@ import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
-import io.github.xhinliang.birthday.util.ImageUtils;
-import io.github.xhinliang.birthday.util.XLog;
+import io.github.xhinliang.lib.util.ImageUtils;
+import io.github.xhinliang.lib.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -290,7 +290,7 @@ public class ContactDetailsActivity extends RealmActivity {
                     @Override
                     public void call(Bitmap bitmap) {
                         binding.ivPicture.setImageBitmap(bitmap);
-                        //设置了图片，动画开启
+                        // 设置了图片，动画开启
                         binding.ivPicture.setAnimate(true);
                     }
                 });
@@ -332,7 +332,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         createNewGroup();
                     }
                 });
-        //这里需要ids预留，限制为最多八个自定义群组
+        // 限制为最多八个自定义群组
         if (groups.length < 8)
             builder.neutralText(R.string.create);
         builder.show();
