@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -62,9 +63,10 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void checkIntent() {
-        if (getIntent()==null)
+        Parcelable parcelable = getIntent().getParcelableExtra(EXTRA_CONTACT);
+        if (parcelable == null)
             return;
-        Contact contact = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_CONTACT));
+        Contact contact = Parcels.unwrap(parcelable);
         binding.setName(contact.getName());
         binding.setGroup(contact.getGroup());
         binding.setTelephone(contact.getTelephone());
@@ -75,28 +77,29 @@ public class ContactDetailsActivity extends RealmActivity {
     private void initEvent() {
         //用户未设置图片时没有动画
         binding.ivPicture.setAnimate(false);
-        initTextEvent(binding.mrlName, getString(R.string.name), binding.getName(), new setTextCallback() {
+
+        initTextEvent(binding.ivName, getString(R.string.name), binding.getName(), new setTextCallback() {
             @Override
             public void onConfirm(String text) {
                 binding.setName(text);
             }
         });
 
-        initTextEvent(binding.mrlDescription, getString(R.string.description), binding.getDescription(), new setTextCallback() {
+        initTextEvent(binding.ivDescription, getString(R.string.description), binding.getDescription(), new setTextCallback() {
             @Override
             public void onConfirm(String text) {
                 binding.setDescription(text);
             }
         });
 
-        initTextEvent(binding.mrlTelephone, getString(R.string.telephone), binding.getTelephone(), new setTextCallback() {
+        initTextEvent(binding.ivTelephone, getString(R.string.telephone), binding.getTelephone(), new setTextCallback() {
             @Override
             public void onConfirm(String text) {
                 binding.setTelephone(text);
             }
         });
 
-        setRxClick(binding.mrlGroup)
+        setRxClick(binding.ivGroup)
                 .flatMap(new Func1<Void, Observable<RealmResults<Group>>>() {
                     @Override
                     public Observable<RealmResults<Group>> call(Void aVoid) {
@@ -144,7 +147,7 @@ public class ContactDetailsActivity extends RealmActivity {
             }
         };
 
-        setRxClick(binding.mrlBirthday)
+        setRxClick(binding.ivBirthday)
                 .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
                     @Override

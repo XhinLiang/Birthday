@@ -90,178 +90,41 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/mrl_name"
+                <io.github.xhinliang.lib.widget.ItemView
+                    android:id="@+id/iv_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="?attr/colorPrimary"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_height="70dp"
+                    app:itemContent="@{name}"
+                    app:item_title="@string/name" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/name" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@{name}"
-                            android:textColor="@color/dark_grey"
-                            android:textSize="20sp"
-                            tools:text="@string/give_me_star" />
-
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/mrl_birthday"
+                <io.github.xhinliang.lib.widget.ItemView
+                    android:id="@+id/iv_birthday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="?attr/colorPrimary"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_height="70dp"
+                    app:itemContent="@{MvvmUtils.getBirthday(birthday)}"
+                    app:item_title="@string/birthday" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/birthday" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@{MvvmUtils.getBirthday(birthday)}"
-                            android:textColor="@color/dark_grey"
-                            android:textSize="20sp"
-                            tools:text="@string/give_me_star" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/mrl_telephone"
+                <io.github.xhinliang.lib.widget.ItemView
+                    android:id="@+id/iv_telephone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="?attr/colorPrimary"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_height="70dp"
+                    app:itemContent="@{telephone}"
+                    app:item_title="@string/telephone" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/telephone" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@{telephone}"
-                            android:textColor="@color/dark_grey"
-                            android:textSize="20sp"
-                            tools:text="@string/give_me_star" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/mrl_group"
+                <io.github.xhinliang.lib.widget.ItemView
+                    android:id="@+id/iv_group"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="?attr/colorPrimary"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_height="70dp"
+                    app:itemContent="@{group}"
+                    app:item_title="@string/group" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/group" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@{group}"
-                            android:textColor="@color/dark_grey"
-                            android:textSize="20sp"
-                            tools:text="@string/give_me_star" />
-
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/mrl_description"
+                <io.github.xhinliang.lib.widget.ItemView
+                    android:id="@+id/iv_description"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="?attr/colorPrimary"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_height="70dp"
+                    app:itemContent="@{description}"
+                    app:item_title="@string/description" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/description" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@{description}"
-                            android:textColor="@color/dark_grey"
-                            android:textSize="20sp"
-                            tools:text="@string/give_me_star" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>

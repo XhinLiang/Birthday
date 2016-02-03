@@ -1,4 +1,4 @@
-package io.github.xhinliang.birthday.view;
+package io.github.xhinliang.lib.widget;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

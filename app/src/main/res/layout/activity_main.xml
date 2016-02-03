@@ -59,7 +59,7 @@
                 android:src="@drawable/ic_person_add_white_24dp"
                 app:layout_anchor="@id/rv_contacts"
                 app:layout_anchorGravity="bottom|end"
-                app:layout_behavior="io.github.xhinliang.birthday.view.FABScrollBehavior" />
+                app:layout_behavior="io.github.xhinliang.lib.widget.FABScrollBehavior" />
 
 
         </android.support.design.widget.CoordinatorLayout>
