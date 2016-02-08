@@ -5,7 +5,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme" parent="@style/BaseTheme" />
+    <style name="AppTheme" parent="@style/BaseTheme" >
+
+        <item name="selectableItemBackground">@drawable/selectable_background</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
+
+    </style>
 
     <style name="ScrollTheme" parent="AppTheme" />
 
@@ -27,5 +32,7 @@
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="LightToolbarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
 
 </resources>

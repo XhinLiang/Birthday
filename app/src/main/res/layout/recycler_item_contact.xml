@@ -46,7 +46,7 @@
                 android:layout_toRightOf="@id/ivAvatar"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:text="@{MvvmUtils.getBirthday(contact.birthday)}"
+                android:text="@{MvvmUtils.getBirthday(contact.birthday,contact.isLunar)}"
                 android:textSize="12sp" />
 
             <TextView

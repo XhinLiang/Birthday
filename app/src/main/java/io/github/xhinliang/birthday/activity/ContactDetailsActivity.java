@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -26,9 +27,10 @@ import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
-import io.github.xhinliang.lib.util.ImageUtils;
-import io.github.xhinliang.lib.util.XLog;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
+import io.github.xhinliang.lib.rx.RxCheckBox;
+import io.github.xhinliang.lib.util.ImageUtils;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import rx.Observable;
@@ -75,7 +77,7 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void initEvent() {
-        //用户未设置图片时没有动画
+        // 用户未设置图片时没有动画
         binding.ivPicture.setAnimate(false);
 
         initTextEvent(binding.ivName, getString(R.string.name), binding.getName(), new setTextCallback() {
@@ -175,6 +177,7 @@ public class ContactDetailsActivity extends RealmActivity {
                     }
                 });
 
+
         setRxClick(binding.fabDone)
                 .filter(filter)
                 .map(new Func1<Void, Void>() {
@@ -188,6 +191,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         contact.setDescription(binding.getDescription());
                         contact.setTelephone(binding.getTelephone());
                         contact.setPicture(pictureName);
+                        contact.setIsLunar(binding.getIsLunar());
                         realm.commitTransaction();
                         return null;
                     }
@@ -215,6 +219,17 @@ public class ContactDetailsActivity extends RealmActivity {
                         Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
                         startActivityForResult(intent, REQUEST_SELECT_PIC);
+                    }
+                });
+
+        RxCheckBox.checkedChange(binding.cbLunar)
+                .compose(this.<Boolean>bindToLifecycle())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean isChecked) {
+                        Log.d(TAG, "CheckedChange");
+                        binding.setIsLunar(isChecked);
+                        Log.d(TAG, "isLunar " + binding.getIsLunar());
                     }
                 });
     }

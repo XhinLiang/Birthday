@@ -123,6 +123,7 @@ public class MainActivity extends RealmActivity {
             case R.id.menu_item_about:
                 return;
             case R.id.menu_item_setting:
+                startActivity(new Intent(this, SettingActivity.class));
                 return;
         }
         String groupName = menuItem.getTitle().toString();

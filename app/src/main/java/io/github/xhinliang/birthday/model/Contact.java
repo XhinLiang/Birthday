@@ -25,6 +25,15 @@ public class Contact extends RealmObject {
     private String description;
     private String group;
     private String picture;
+    private Boolean isLunar;
+
+    public Boolean getIsLunar() {
+        return isLunar;
+    }
+
+    public void setIsLunar(Boolean isLunar) {
+        this.isLunar = isLunar;
+    }
 
     public Contact() {
     }

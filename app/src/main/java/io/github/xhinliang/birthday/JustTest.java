@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import io.github.xhinliang.birthday.model.Contact;
-import io.github.xhinliang.lib.util.XLog;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.widget.ItemView;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;

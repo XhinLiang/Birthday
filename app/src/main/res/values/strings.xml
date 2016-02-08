@@ -30,5 +30,23 @@
     <string name="result">Result</string>
     <string name="fail_to_add_contact">Fail</string>
     <string name="name_is_empty">Name is empty</string>
+    <string name="lunar">Lunar</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="give_favor">sfe</string>
+    <string name="give_favor_key">sfewfew</string>
+    <string name="advice_feedback">wefew</string>
+    <string name="advice_feedback_key">sdfew</string>
+    <string name="backup_local_summary">werwefd</string>
+    <string name="backup_local">werdsfsd</string>
+    <string name="backup_local_key">gedvdv</string>
+    <string name="bind_ever_note">wsdfdsf</string>
+    <string name="ever_note_account_key">wedfsxdf</string>
+    <string name="card_note_item_layout">wefdsxcv</string>
+    <string name="card_note_item_layout_key">wefewxcvd</string>
+    <string name="right_hand_mode_summary">wefwef</string>
+    <string name="right_hand_mode" >sdfsdfsf</string>
+    <string name="general_settings">Setting</string>
+    <string name="other">Other</string>
+
 
 </resources>

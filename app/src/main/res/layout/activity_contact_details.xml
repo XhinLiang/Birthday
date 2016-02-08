@@ -11,6 +11,10 @@
         <import type="io.github.xhinliang.birthday.util.MvvmUtils" />
 
         <variable
+            name="isLunar"
+            type="Boolean" />
+
+        <variable
             name="birthday"
             type="Date" />
 
@@ -97,12 +101,29 @@
                     app:itemContent="@{name}"
                     app:item_title="@string/name" />
 
-                <io.github.xhinliang.lib.widget.ItemView
-                    android:id="@+id/iv_birthday"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    app:itemContent="@{MvvmUtils.getBirthday(birthday)}"
-                    app:item_title="@string/birthday" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <io.github.xhinliang.lib.widget.ItemView
+                        android:id="@+id/iv_birthday"
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:itemContent="@{MvvmUtils.getBirthday(birthday,isLunar)}"
+                        app:item_title="@string/birthday" />
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/cb_lunar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="@string/lunar" />
+                </LinearLayout>
+
 
                 <io.github.xhinliang.lib.widget.ItemView
                     android:id="@+id/iv_telephone"
