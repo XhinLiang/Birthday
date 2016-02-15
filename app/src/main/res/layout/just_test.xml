@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <io.github.xhinliang.lib.widget.ItemView
-        android:id="@+id/iv"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:item_content="wefwef"
-        app:item_title="wefewf" />
+    <io.github.xhinliang.material.widget.Switch
+        android:id="@+id/switch_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
 

@@ -2,12 +2,10 @@ package io.github.xhinliang.birthday;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.Checkable;
 
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.util.XLog;
-import io.github.xhinliang.lib.widget.ItemView;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -25,14 +23,16 @@ public class JustTest extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.just_test);
-        findViewById(R.id.iv).setOnClickListener(new View.OnClickListener() {
+        final Checkable switchView = (Checkable) findViewById(R.id.switch_view);
+        final android.os.Handler handler = new android.os.Handler();
+        Runnable runnable = new Runnable() {
             @Override
-            public void onClick(View v) {
-                Log.d(TAG, "click");
+            public void run() {
+                switchView.setChecked(!switchView.isChecked());
+                handler.postDelayed(this, 1000);
             }
-        });
-        ItemView itemView = (ItemView) findViewById(R.id.iv);
-        itemView.setItemContent("NIMA");
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
     private void realm() {
@@ -52,9 +52,4 @@ public class JustTest extends Activity {
         contacts.clear();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 }
