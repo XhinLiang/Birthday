@@ -5,14 +5,16 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Checkable;
 
-import static android.text.TextUtils.isEmpty;
-
 @SuppressWarnings("unused")
 public abstract class TwoStatePreference extends Preference {
+
+    private static final String TAG = "TwoStatePreference";
 
     private CharSequence summaryOn;
     private CharSequence summaryOff;
@@ -36,20 +38,29 @@ public abstract class TwoStatePreference extends Preference {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{
+                android.R.attr.summaryOn, android.R.attr.summaryOff, android.R.attr.disableDependentsState
+        }, defStyleAttr, defStyleRes);
+        setSummaryOn(typedArray.getString(0));
+        setSummaryOff(typedArray.getString(1));
+        setDisableDependentsState(typedArray.getBoolean(2, false));
+        typedArray.recycle();
+    }
+
     @Override
-    @SuppressWarnings("deprecation")
     protected void onBindView(View view) {
         super.onBindView(view);
-        Checkable checkboxView = (Checkable) view.findViewById(R.id.checkable);
-        checkboxView.setChecked(isChecked());
-        ((View) checkboxView).setBackgroundDrawable(null);
+        Log.d(TAG, "onBindView");
+        Checkable checkable = (Checkable) view.findViewById(R.id.checkable);
+        checkable.setChecked(isChecked);
         syncSummaryView();
     }
 
     @Override
     protected void onClick() {
+        Log.d(TAG, "onClick");
         super.onClick();
-
         boolean newValue = !isChecked();
         if (callChangeListener(newValue)) {
             setChecked(newValue);
@@ -57,7 +68,7 @@ public abstract class TwoStatePreference extends Preference {
     }
 
     /**
-     * Sets the checked state and saves it to the {@link SharedPreferences}.
+     * Set the checked state and saves it to the {@link SharedPreferences}.
      *
      * @param checked The checked state.
      */
@@ -73,18 +84,6 @@ public abstract class TwoStatePreference extends Preference {
                 notifyChanged();
             }
         }
-    }
-
-    protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{
-                android.R.attr.summaryOn, android.R.attr.summaryOff, android.R.attr.disableDependentsState
-        }, defStyleAttr, defStyleRes);
-
-        setSummaryOn(typedArray.getString(0));
-        setSummaryOff(typedArray.getString(1));
-        setDisableDependentsState(typedArray.getBoolean(2, false));
-
-        typedArray.recycle();
     }
 
 
@@ -193,34 +192,33 @@ public abstract class TwoStatePreference extends Preference {
     }
 
     /**
-     * Sync a summary view contained within view's subhierarchy with the correct summary text.
+     * Sync a summary view contained within view's sub hierarchy with the correct summary text.
      */
-    void syncSummaryView() {
+    private void syncSummaryView() {
+        Log.d(TAG, "syncSummaryView");
         // Sync the summary view
         boolean useDefaultSummary = true;
-        if (isChecked && !isEmpty(summaryOn)) {
-            summaryView.setText(summaryOn);
+        if (isChecked && !TextUtils.isEmpty(summaryOn)) {
+            summaryText.setText(summaryOn);
             useDefaultSummary = false;
-        } else if (!isChecked && !isEmpty(summaryOff)) {
-            summaryView.setText(summaryOff);
+        } else if (!isChecked && !TextUtils.isEmpty(summaryOff)) {
+            summaryText.setText(summaryOff);
             useDefaultSummary = false;
         }
-
         if (useDefaultSummary) {
             CharSequence summary = getSummary();
-            if (!isEmpty(summary)) {
-                summaryView.setText(summary);
+            if (!TextUtils.isEmpty(summary)) {
+                summaryText.setText(summary);
                 useDefaultSummary = false;
             }
         }
-
         int newVisibility = View.GONE;
         if (!useDefaultSummary) {
             // Someone has written to it
             newVisibility = View.VISIBLE;
         }
-        if (newVisibility != summaryView.getVisibility()) {
-            summaryView.setVisibility(newVisibility);
+        if (newVisibility != summaryText.getVisibility()) {
+            summaryText.setVisibility(newVisibility);
         }
     }
 
@@ -231,7 +229,6 @@ public abstract class TwoStatePreference extends Preference {
             // No need to save instance state since it's persistent
             return superState;
         }
-
         SavedState myState = new SavedState(superState);
         myState.checked = isChecked();
         return myState;
@@ -244,7 +241,6 @@ public abstract class TwoStatePreference extends Preference {
             super.onRestoreInstanceState(state);
             return;
         }
-
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
         setChecked(myState.checked);

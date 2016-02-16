@@ -1,6 +1,8 @@
 package io.github.xhinliang.birthday.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,18 @@ import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.rx.RealmRecyclerView;
 import io.github.xhinliang.lib.util.ImageUtils;
 import io.realm.RealmResults;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, ContactAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity context;
     private Listener listener;
 
-    public ContactAdapter(Context context, RealmResults<Contact> data, Listener listener) {
+    public ContactAdapter(Activity context, RealmResults<Contact> data, Listener listener) {
         super(context, data);
         this.context = context;
         this.listener = listener;
@@ -32,7 +39,7 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Contact item = data.get(position);
         holder.binding.setContact(item);
         // execute the binding immediately to ensure
@@ -40,7 +47,21 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
         holder.binding.executePendingBindings();
         if (!TextUtils.isEmpty(item.getPicture())) {
             String imagePath = String.format("%s%s%s", context.getFilesDir().getAbsolutePath(), File.separator, item.getPicture());
-            holder.binding.ivAvatar.setImageBitmap(ImageUtils.compressImageByPixel(imagePath, 200));
+            Observable.just(imagePath)
+                    .subscribeOn(Schedulers.io())
+                    .map(new Func1<String, Bitmap>() {
+                        @Override
+                        public Bitmap call(String s) {
+                            return ImageUtils.compressImageByPixel(s, 200);
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Bitmap>() {
+                        @Override
+                        public void call(Bitmap bitmap) {
+                            holder.binding.ivAvatar.setImageBitmap(bitmap);
+                        }
+                    });
         } else
             holder.binding.ivAvatar.setImageResource(R.drawable.ic_account_box_black_24dp);
         holder.itemView.setTag(item);
@@ -68,5 +89,10 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
                 }
             });
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 }

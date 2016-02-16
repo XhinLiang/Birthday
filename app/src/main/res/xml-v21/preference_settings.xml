@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/general_settings">
-        <com.jenzz.materialpreference.SwitchPreference
+    <PreferenceCategory android:title="@string/general_settings">
+        <SwitchPreference
             android:key="sfewf"
-            android:summaryOn="fewf"
-            android:summaryOff="sfefdd"
             android:summary="@string/right_hand_mode_summary"
+            android:summaryOff="sfefdd"
+            android:summaryOn="fewf"
             android:title="@string/right_hand_mode" />
-        <com.jenzz.materialpreference.CheckBoxPreference
+        <CheckBoxPreference
             android:key="@string/card_note_item_layout_key"
             android:title="@string/card_note_item_layout" />
-        <com.jenzz.materialpreference.Preference
+        <Preference
             android:key="@string/ever_note_account_key"
             android:title="@string/bind_ever_note" />
-        <com.jenzz.materialpreference.Preference
+        <Preference
             android:key="@string/backup_local_key"
             android:summary="@string/backup_local_summary"
             android:title="@string/backup_local" />
-    </com.jenzz.materialpreference.PreferenceCategory>
+    </PreferenceCategory>
 
-    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/other">
-        <com.jenzz.materialpreference.Preference
+    <PreferenceCategory android:title="@string/other">
+        <Preference
             android:key="@string/advice_feedback_key"
             android:title="@string/advice_feedback" />
-        <com.jenzz.materialpreference.Preference
+        <Preference
             android:key="@string/give_favor_key"
             android:title="@string/give_favor" />
-    </com.jenzz.materialpreference.PreferenceCategory>
+    </PreferenceCategory>
 
     <SwitchPreference
         android:key="@string/advice_feedback_key"

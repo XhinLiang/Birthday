@@ -5,7 +5,7 @@
     <string name="about">About</string>
     <string name="me">Me</string>
     <string name="system">System</string>
-    <string name="all_friend">All friend</string>
+    <string name="all_friend">Contact</string>
     <string name="prompt_username">Enter your username</string>
     <string name="prompt_password">Enter your password</string>
     <string name="login">Login</string>
@@ -34,8 +34,6 @@
     <string name="title_activity_setting">SettingActivity</string>
 
 
-
-    
     <string name="give_favor">sfe</string>
     <string name="give_favor_key">sfewfew</string>
     <string name="advice_feedback">wefew</string>
@@ -48,7 +46,7 @@
     <string name="card_note_item_layout">wefdsxcv</string>
     <string name="card_note_item_layout_key">wefewxcvd</string>
     <string name="right_hand_mode_summary">wefwef</string>
-    <string name="right_hand_mode" >sdfsdfsf</string>
+    <string name="right_hand_mode">sdfsdfsf</string>
     <string name="general_settings">Setting</string>
     <string name="other">Other</string>
 

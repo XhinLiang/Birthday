@@ -18,7 +18,6 @@ import io.github.xhinliang.birthday.adapter.ContactAdapter;
 import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
-import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.lib.activity.RealmActivity;
 import io.realm.RealmResults;
 import rx.functions.Action1;
@@ -39,7 +38,6 @@ public class MainActivity extends RealmActivity {
         initView();
         initNavigationSelection();
         initEvent();
-        initContactGroups();
         initRecyclerView();
     }
 
@@ -84,6 +82,7 @@ public class MainActivity extends RealmActivity {
 
     private void initEvent() {
         setRxClick(binding.fabAdd)
+                .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
@@ -92,24 +91,6 @@ public class MainActivity extends RealmActivity {
                 });
     }
 
-    private void initContactGroups() {
-        realm.where(Group.class)
-                .findAllAsync()
-                .asObservable()
-                .compose(this.<RealmResults<Group>>bindToLifecycle())
-                .subscribe(new Action1<RealmResults<Group>>() {
-                    @Override
-                    public void call(RealmResults<Group> groups) {
-                        for (int i = 1; i < 10; ++i)
-                            binding.navView.getMenu().getItem(i).setVisible(false);
-                        for (int i = 0; i < groups.size(); ++i) {
-                            MenuItem item = binding.navView.getMenu().getItem(i + 1);
-                            item.setTitle(groups.get(i).getName());
-                            item.setVisible(true);
-                        }
-                    }
-                });
-    }
 
     private void initNavigationSelection() {
         binding.navView.setCheckedItem(R.id.menu_item_all_friend);

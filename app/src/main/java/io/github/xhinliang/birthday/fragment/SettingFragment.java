@@ -14,7 +14,6 @@ import io.github.xhinliang.birthday.R;
  */
 public class SettingFragment extends PreferenceFragment {
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +24,7 @@ public class SettingFragment extends PreferenceFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setPadding(0, 0, 0, 0);
         listView.setHorizontalScrollBarEnabled(false);
         listView.setVerticalScrollBarEnabled(false);
         listView.setDividerHeight(0);

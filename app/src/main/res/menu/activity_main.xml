@@ -8,34 +8,6 @@
             android:id="@+id/menu_item_all_friend"
             android:icon="@drawable/ic_group_black_24dp"
             android:title="@string/all_friend" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-        <item
-            android:icon="@drawable/ic_group_black_24dp"
-            android:visible="false" />
-
 
     </group>
 

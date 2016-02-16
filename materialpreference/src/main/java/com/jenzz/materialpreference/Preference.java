@@ -20,11 +20,11 @@ import static com.jenzz.materialpreference.Typefaces.getRobotoRegular;
 
 public class Preference extends android.preference.Preference {
 
-    TextView titleView;
-    TextView summaryView;
+    protected TextView titleText;
+    protected TextView summaryText;
 
-    ImageView imageView;
-    View imageFrame;
+    protected ImageView imageView;
+    protected View imageFrame;
 
     private int iconResId;
     private Drawable icon;
@@ -79,16 +79,16 @@ public class Preference extends android.preference.Preference {
         super.onBindView(view);
 
         CharSequence title = getTitle();
-        titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(title);
-        titleView.setVisibility(!isEmpty(title) ? VISIBLE : GONE);
-        titleView.setTypeface(getRobotoRegular(getContext()));
+        titleText = (TextView) view.findViewById(R.id.title);
+        titleText.setText(title);
+        titleText.setVisibility(!isEmpty(title) ? VISIBLE : GONE);
+        titleText.setTypeface(getRobotoRegular(getContext()));
 
         CharSequence summary = getSummary();
-        summaryView = (TextView) view.findViewById(R.id.summary);
-        summaryView.setText(summary);
-        summaryView.setVisibility(!isEmpty(summary) ? VISIBLE : GONE);
-        summaryView.setTypeface(getRobotoRegular(getContext()));
+        summaryText = (TextView) view.findViewById(R.id.summary);
+        summaryText.setText(summary);
+        summaryText.setVisibility(!isEmpty(summary) ? VISIBLE : GONE);
+        summaryText.setTypeface(getRobotoRegular(getContext()));
 
         if (icon == null && iconResId > 0) {
             icon = getContext().getResources().getDrawable(iconResId);
