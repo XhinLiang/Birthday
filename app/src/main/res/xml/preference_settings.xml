@@ -29,4 +29,8 @@
     <SwitchPreference
         android:key="@string/advice_feedback_key"
         android:title="@string/advice_feedback" />
+
+    <CheckBoxPreference
+        android:key="@string/advice_feedback_key"
+        android:title="@string/advice_feedback" />
 </PreferenceScreen>
