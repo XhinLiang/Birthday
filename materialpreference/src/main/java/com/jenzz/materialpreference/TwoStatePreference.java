@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Checkable;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -31,9 +32,18 @@ public abstract class TwoStatePreference extends Preference {
         super(context, attrs, defStyleAttr);
     }
 
-    public TwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr,
-                              int defStyleRes) {
+    public TwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        Checkable checkboxView = (Checkable) view.findViewById(R.id.checkable);
+        checkboxView.setChecked(isChecked());
+        ((View) checkboxView).setBackgroundDrawable(null);
+        syncSummaryView();
     }
 
     @Override
@@ -184,7 +194,6 @@ public abstract class TwoStatePreference extends Preference {
 
     /**
      * Sync a summary view contained within view's subhierarchy with the correct summary text.
-     *
      */
     void syncSummaryView() {
         // Sync the summary view

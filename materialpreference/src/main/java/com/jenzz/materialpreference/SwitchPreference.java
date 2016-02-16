@@ -1,9 +1,7 @@
 package com.jenzz.materialpreference;
 
 import android.content.Context;
-import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
-import android.view.View;
 
 public class SwitchPreference extends TwoStatePreference {
 
@@ -33,13 +31,5 @@ public class SwitchPreference extends TwoStatePreference {
         setWidgetLayoutResource(R.layout.mp_switch_preference);
     }
 
-    @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
 
-        SwitchCompat switchCompat = (SwitchCompat) view.findViewById(R.id.switch_compat);
-        switchCompat.setChecked(isChecked());
-
-        syncSummaryView();
-    }
 }

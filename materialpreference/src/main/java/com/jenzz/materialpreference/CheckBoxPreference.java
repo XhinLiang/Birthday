@@ -2,10 +2,6 @@ package com.jenzz.materialpreference;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.CheckBox;
-
-import static com.jenzz.materialpreference.ThemeUtils.isAtLeastL;
 
 public class CheckBoxPreference extends TwoStatePreference {
 
@@ -34,16 +30,4 @@ public class CheckBoxPreference extends TwoStatePreference {
         setWidgetLayoutResource(R.layout.mp_checkbox_preference);
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        CheckBox checkboxView = (CheckBox) view.findViewById(R.id.checkbox);
-        checkboxView.setChecked(isChecked());
-        if (isAtLeastL()) {
-            // remove circular background when pressed
-            checkboxView.setBackgroundDrawable(null);
-        }
-        syncSummaryView();
-    }
 }
