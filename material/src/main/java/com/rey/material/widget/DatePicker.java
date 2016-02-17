@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import io.github.xhinliang.lunarcalendar.LunarCalendar;
+
 /**
  * Created by Rey on 12/31/2014.
  * Date Picker
@@ -293,7 +295,7 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
 
     @Override
     public void onScrollStateChanged(AbsListView absListView, int scroll) {
-        mScrollStateChangedRunnable.doScrollStateChange(absListView, scroll);
+        mScrollStateChangedRunnable.doScrollStateChange(scroll);
     }
 
     private void measureBaseSize() {
@@ -483,17 +485,11 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
         return mTextColor;
     }
 
-    public int getTextLabelColor() {
-        return mTextLabelColor;
-    }
 
     public int getTextHighlightColor() {
         return mTextHighlightColor;
     }
 
-    public int getTextDisableColor() {
-        return mTextDisableColor;
-    }
 
     public Calendar getCalendar() {
         return mCalendar;
@@ -506,10 +502,9 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
          * Sets up the runnable with a short delay in case the scroll state
          * immediately changes again.
          *
-         * @param view        The list view that changed state
          * @param scrollState The new state it changed to
          */
-        public void doScrollStateChange(AbsListView view, int scrollState) {
+        public void doScrollStateChange(int scrollState) {
             mHandler.removeCallbacks(this);
             mNewState = scrollState;
             mHandler.postDelayed(this, SCROLL_CHANGE_DELAY);
@@ -567,7 +562,6 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
 
         public MonthView(Context context) {
             super(context);
-
             setWillNotDraw(false);
         }
 
@@ -584,7 +578,6 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
             if (mSelectedDay != day) {
                 mPreviousSelectedDay = mSelectedDay;
                 mSelectedDay = day;
-
                 if (animation)
                     startAnimation();
                 else
@@ -640,7 +633,6 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
             if (mSelectedDay > 0) {
                 int col = (mFirstDayCol + mSelectedDay - 1) % 7;
                 int row = (mFirstDayCol + mSelectedDay - 1) / 7 + 1;
-
                 x = (col + 0.5f) * mDayWidth + paddingLeft;
                 y = (row + 0.5f) * mDayHeight + paddingTop;
                 float radius = mRunning ? mInInterpolator.getInterpolation(mAnimProgress) * mSelectionRadius : mSelectionRadius;
@@ -651,7 +643,6 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
             if (mRunning && mPreviousSelectedDay > 0) {
                 int col = (mFirstDayCol + mPreviousSelectedDay - 1) % 7;
                 int row = (mFirstDayCol + mPreviousSelectedDay - 1) / 7 + 1;
-
                 x = (col + 0.5f) * mDayWidth + paddingLeft;
                 y = (row + 0.5f) * mDayHeight + paddingTop;
                 float radius = (1f - mOutInterpolator.getInterpolation(mAnimProgress)) * mSelectionRadius;
@@ -671,29 +662,58 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
             }
 
             //draw date text
-            int col = mFirstDayCol;
-            int row = 1;
-            int maxDay = mMaxAvailDay > 0 ? Math.min(mMaxAvailDay, mMaxDay) : mMaxDay;
-            for (int day = 1; day <= mMaxDay; day++) {
-                if (day == mSelectedDay)
-                    mPaint.setColor(mTextHighlightColor);
-                else if (day < mMinAvailDay || day > maxDay)
-                    mPaint.setColor(mTextDisableColor);
-                else if (day == mToday)
-                    mPaint.setColor(mSelectionColor);
-                else
-                    mPaint.setColor(mTextColor);
+//            int col = mFirstDayCol;
+//            int row = 1;
+//            int maxDay = mMaxAvailDay > 0 ? Math.min(mMaxAvailDay, mMaxDay) : mMaxDay;
+//            for (int day = 1; day <= mMaxDay; day++) {
+//                if (day == mSelectedDay)
+//                    mPaint.setColor(mTextHighlightColor);
+//                else if (day < mMinAvailDay || day > maxDay)
+//                    mPaint.setColor(mTextDisableColor);
+//                else if (day == mToday)
+//                    mPaint.setColor(mSelectionColor);
+//                else
+//                    mPaint.setColor(mTextColor);
+//                x = (col + 0.5f) * mDayWidth + paddingLeft;
+//                y = row * mDayHeight + paddingTop;
+//                canvas.drawText("fefe", x, y, mPaint);
+//                col++;
+//                if (col == 7) {
+//                    col = 0;
+//                    row++;
+//                }
+//            }
 
-                x = (col + 0.5f) * mDayWidth + paddingLeft;
-                y = row * mDayHeight + paddingTop;
-
-                canvas.drawText(getDayText(day), x, y, mPaint);
-                col++;
-                if (col == 7) {
-                    col = 0;
-                    row++;
+            float tempX = 0;
+            float tempY = paddingTop;
+            LunarCalendar[][] month = LunarCalendar.getInstanceMonth(mYear, mMonth + 1);
+            for (LunarCalendar[] week : month) {
+                for (int j = 0; j < week.length; ++j) {
+                    if (j == 0) {
+                        tempY += mDayHeight;
+                        tempX = -0.5f * mDayWidth + paddingLeft;
+                    }
+                    tempX += mDayWidth;
+                    if (week[j] == null) {
+                        continue;
+                    }
+                    if (week[j].isToday())
+                        mPaint.setColor(mSelectionColor);
+                    else if (week[j].getDay() == mSelectedDay)
+                        mPaint.setColor(mTextHighlightColor);
+                    else
+                        mPaint.setColor(mTextColor);
+                    mPaint.setTextSize(mTextSize);
+                    canvas.drawText(week[j].getDay() + "", tempX, tempY - 10, mPaint);
+                    mPaint.setTextSize(mTextSize - 5);
+                    if (week[j].getLunar().day == 1)
+                        canvas.drawText(week[j].getLunarMonth() + "月", tempX, tempY + 7, mPaint);
+                    else
+                        canvas.drawText(week[j].getLunarDay() + "", tempX, tempY + 7, mPaint);
                 }
             }
+
+
         }
 
         private int getTouchedDay(float x, float y) {

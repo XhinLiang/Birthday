@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.parceler.Parcels;
 
@@ -157,23 +156,23 @@ public class ContactDetailsActivity extends RealmActivity {
                         Calendar defaultDate = new GregorianCalendar(1995, 0, 6);
                         if (binding.getBirthday() != null)
                             defaultDate.setTime(binding.getBirthday());
-                        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(year, month, day);
-                                binding.setBirthday(calendar.getTime());
-                            }
-                        };
-                        DatePickerDialog dpd = DatePickerDialog.newInstance(listener,
-                                defaultDate.get(Calendar.YEAR),
-                                defaultDate.get(Calendar.MONTH),
-                                defaultDate.get(Calendar.DAY_OF_MONTH)
-                        );
-                        dpd.setThemeDark(true);
-                        dpd.vibrate(false);
-                        dpd.showYearPickerFirst(true);
-                        dpd.show(getFragmentManager(), DIALOG_TAG);
+//                        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+//                                Calendar calendar = Calendar.getInstance();
+//                                calendar.set(year, month, day);
+//                                binding.setBirthday(calendar.getTime());
+//                            }
+//                        };
+//                        DatePickerDialog dpd = DatePickerDialog.newInstance(listener,
+//                                defaultDate.get(Calendar.YEAR),
+//                                defaultDate.get(Calendar.MONTH),
+//                                defaultDate.get(Calendar.DAY_OF_MONTH)
+//                        );
+//                        dpd.setThemeDark(true);
+//                        dpd.vibrate(false);
+//                        dpd.showYearPickerFirst(true);
+//                        dpd.show(getFragmentManager(), DIALOG_TAG);
                     }
                 });
 

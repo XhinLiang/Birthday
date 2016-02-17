@@ -59,8 +59,6 @@ dependencies {
 
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'io.realm:realm-android:0.87.3'
-    compile 'com.github.XhinLiang.MaterialDateTimePicker:lunarcalender:3.1.1'
-    compile 'com.github.XhinLiang.MaterialDateTimePicker:library:3.1.1'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
         transitive = true
     }

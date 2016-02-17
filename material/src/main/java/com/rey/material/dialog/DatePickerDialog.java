@@ -113,8 +113,8 @@ public class DatePickerDialog extends Dialog {
     /**
      * Set the range of selectable dates.
      *
-     * @param minTime The minimum date in milis.
-     * @param maxTime The maximum date in milis
+     * @param minTime The minimum date in millis.
+     * @param maxTime The maximum date in millis
      * @return The DatePickerDialog for chaining methods.
      */
     public DatePickerDialog dateRange(long minTime, long maxTime) {
