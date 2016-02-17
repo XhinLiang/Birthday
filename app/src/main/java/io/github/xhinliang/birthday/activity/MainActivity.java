@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
@@ -54,17 +55,28 @@ public class MainActivity extends RealmActivity {
         binding.rvContacts.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.option_select_group:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initView() {
         setSupportActionBar(binding.toolbar);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout,
                 binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         binding.drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-
         binding.navView.addHeaderView(headerBinding.getRoot());
-
         RxNavigationView.itemSelections(binding.navView)
                 .compose(this.<MenuItem>bindToLifecycle())
                 .subscribe(new Action1<MenuItem>() {
