@@ -628,7 +628,6 @@
         <attr name="dp_day" />
         <attr name="dp_dayTextSize" format="dimension|reference" />
         <attr name="dp_textLabelColor" format="color|reference" />
-        <attr name="dp_textDisableColor" format="color|reference" />
         <attr name="dp_textHighlightColor" />
         <attr name="dp_textColor" />
         <attr name="dp_selectionColor" />

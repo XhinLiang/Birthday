@@ -465,7 +465,6 @@
     <style name="Material.Widget.DatePicker">
         <item name="dp_dayTextSize">@dimen/abc_text_size_caption_material</item>
         <item name="dp_textLabelColor">@color/abc_secondary_text_material_dark</item>
-        <item name="dp_textDisableColor">@color/abc_secondary_text_material_dark</item>
         <item name="dp_textHighlightColor">#FFFFFFFF</item>
         <item name="dp_textColor">@color/abc_primary_text_material_dark</item>
         <item name="dp_selectionColor">?attr/colorPrimary</item>
@@ -477,7 +476,6 @@
 
     <style name="Material.Widget.DatePicker.Light" parent="Material.Widget.DatePicker">
         <item name="dp_textLabelColor">@color/abc_secondary_text_material_light</item>
-        <item name="dp_textDisableColor">@color/abc_secondary_text_material_light</item>
         <item name="dp_textColor">@color/abc_primary_text_material_light</item>
     </style>
 
@@ -493,7 +491,6 @@
         <item name="dp_textStyle">normal</item>
         <item name="dp_dayTextSize">@dimen/abc_text_size_caption_material</item>
         <item name="dp_textLabelColor">@color/abc_secondary_text_material_dark</item>
-        <item name="dp_textDisableColor">@color/abc_secondary_text_material_dark</item>
         <item name="dp_headerPrimaryHeight">144dp</item>
         <item name="dp_headerSecondaryHeight">32dp</item>
         <item name="dp_headerPrimaryColor">?attr/colorPrimary</item>
@@ -515,7 +512,6 @@
         <item name="dp_textStyle">normal</item>
         <item name="dp_dayTextSize">@dimen/abc_text_size_caption_material</item>
         <item name="dp_textLabelColor">@color/abc_secondary_text_material_light</item>
-        <item name="dp_textDisableColor">@color/abc_secondary_text_material_light</item>
         <item name="dp_headerPrimaryHeight">144dp</item>
         <item name="dp_headerSecondaryHeight">32dp</item>
         <item name="dp_headerPrimaryColor">?attr/colorPrimary</item>
