@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import io.github.xhinliang.lunarcalendar.LunarCalendar;
+
 /**
  * Created by Rey on 12/30/2014.
  * Dialog
@@ -205,6 +207,11 @@ public class DatePickerDialog extends Dialog {
      */
     public String getFormattedDate(DateFormat formatter) {
         return mDatePickerLayout.getFormattedDate(formatter);
+    }
+
+    public LunarCalendar getLunarCalendar() {
+        return LunarCalendar.getInstance(mDatePickerLayout.getYear(),
+                mDatePickerLayout.getMonth() + 1, mDatePickerLayout.getDay());
     }
 
     private class DatePickerLayout extends FrameLayout implements DatePicker.OnDateChangedListener, YearPicker.OnYearChangedListener {
@@ -431,6 +438,8 @@ public class DatePickerDialog extends Dialog {
         public String getFormattedDate(DateFormat formatter) {
             return mDatePicker.getFormattedDate(formatter);
         }
+
+
 
         public Calendar getCalendar() {
             return mDatePicker.getCalendar();
@@ -702,7 +711,7 @@ public class DatePickerDialog extends Dialog {
 
     }
 
-    public static class Builder extends Dialog.Builder  {
+    public static class Builder extends Dialog.Builder {
 
         protected int mMinDay;
         protected int mMinMonth;

@@ -89,7 +89,6 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
     }
 
 
-
     protected int mCurrentScrollState = 0;
     protected long mPreviousScrollPosition;
     protected int mPreviousScrollState = 0;
@@ -661,7 +660,7 @@ public class DatePicker extends ListView implements AbsListView.OnScrollListener
                         continue;
                     }
                     if (week[j].isToday())
-                        mPaint.setColor(mSelectionColor);
+                        mPaint.setColor(mTextLabelColor);
                     else if (week[j].getDay() == mSelectedDay)
                         mPaint.setColor(mTextHighlightColor);
                     else

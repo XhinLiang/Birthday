@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.rey.material.dialog.DatePickerDialog;
 import com.rey.material.dialog.Dialog;
 
-import java.text.SimpleDateFormat;
+import io.github.xhinliang.lunarcalendar.LunarCalendar;
 
 /**
  * Created by xhinliang on 16-2-17.
@@ -24,8 +24,8 @@ public class DialogActivity extends Activity {
                 .positiveAction("OK", new Dialog.Action1() {
                     @Override
                     public void onAction(Dialog dialog) {
-                        String date = ((DatePickerDialog) dialog).getFormattedDate(SimpleDateFormat.getDateInstance());
-                        Toast.makeText(DialogActivity.this, "Date is " + date, Toast.LENGTH_SHORT).show();
+                        LunarCalendar date = ((DatePickerDialog) dialog).getLunarCalendar();
+                        Toast.makeText(DialogActivity.this, "Date is " + date.getFullLunarStr(), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .negativeAction("Cancel", new Dialog.Action1() {
