@@ -1,8 +1,9 @@
-package io.github.xhinliang.lib.rx;
+package io.github.xhinliang.birthday.rx;
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.widget.CheckBox;
+
+import com.rey.material.widget.CheckBox;
 
 import rx.Observable;
 

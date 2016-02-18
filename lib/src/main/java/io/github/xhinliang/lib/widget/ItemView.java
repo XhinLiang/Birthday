@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.rey.material.widget.MaterialRippleLayout;
 
 import io.github.xhinliang.lib.R;
 

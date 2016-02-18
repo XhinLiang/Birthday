@@ -1,10 +1,10 @@
-package io.github.xhinliang.lib.rx;
+package io.github.xhinliang.birthday.rx;
 
 import android.os.Looper;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.jakewharton.rxbinding.internal.MainThreadSubscription;
+import com.rey.material.widget.CheckBox;
 
 import rx.Observable;
 import rx.Subscriber;

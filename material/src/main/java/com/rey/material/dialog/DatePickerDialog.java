@@ -25,6 +25,7 @@ import com.rey.material.widget.YearPicker;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import io.github.xhinliang.lunarcalendar.LunarCalendar;
@@ -440,7 +441,6 @@ public class DatePickerDialog extends Dialog {
         }
 
 
-
         public Calendar getCalendar() {
             return mDatePicker.getCalendar();
         }
@@ -758,6 +758,22 @@ public class DatePickerDialog extends Dialog {
             mDay = day;
             mMonth = month;
             mYear = year;
+        }
+
+        public Builder initDate(int year, int month, int day) {
+            mDay = day;
+            mMonth = month;
+            mYear = year;
+            return this;
+        }
+
+        public Builder initDate(Date date) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            mDay = calendar.get(Calendar.DAY_OF_MONTH);
+            mMonth = calendar.get(Calendar.MONTH);
+            mYear = calendar.get(Calendar.YEAR);
+            return this;
         }
 
         public Builder dateRange(int minDay, int minMonth, int minYear, int maxDay, int maxMonth, int maxYear) {

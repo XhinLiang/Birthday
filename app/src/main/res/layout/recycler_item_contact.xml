@@ -11,16 +11,15 @@
             type="io.github.xhinliang.birthday.model.Contact" />
     </data>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.rey.material.widget.MaterialRippleLayout
         android:id="@+id/mrl_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mrl_rippleColor="?attr/colorPrimary"
-        app:mrl_rippleOverlay="true">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
+            android:background="@drawable/selector"
             android:padding="6dp">
 
             <ImageView
@@ -64,5 +63,5 @@
                 android:text="@{contact.name}"
                 android:textSize="16sp" />
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.rey.material.widget.MaterialRippleLayout>
 </layout>

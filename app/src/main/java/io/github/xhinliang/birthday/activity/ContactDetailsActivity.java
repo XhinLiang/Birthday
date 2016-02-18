@@ -13,23 +13,23 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rey.material.dialog.DatePickerDialog;
+import com.rey.material.dialog.Dialog;
 
 import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
-import io.github.xhinliang.birthday.util.XLog;
+import io.github.xhinliang.birthday.rx.RxCheckBox;
 import io.github.xhinliang.lib.activity.RealmActivity;
-import io.github.xhinliang.lib.rx.RxCheckBox;
 import io.github.xhinliang.lib.util.ImageUtils;
+import io.github.xhinliang.lunarcalendar.LunarCalendar;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import rx.Observable;
@@ -117,7 +117,6 @@ public class ContactDetailsActivity extends RealmActivity {
                 .map(new Func1<RealmResults<Group>, CharSequence[]>() {
                     @Override
                     public CharSequence[] call(RealmResults<Group> groups) {
-                        XLog.d(TAG, "Realm launch group result, size " + groups.size());
                         if (groups.size() == 0)
                             return null;
                         CharSequence[] groupNames = new CharSequence[groups.size()];
@@ -153,26 +152,19 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        Calendar defaultDate = new GregorianCalendar(1995, 0, 6);
-                        if (binding.getBirthday() != null)
-                            defaultDate.setTime(binding.getBirthday());
-//                        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-//                                Calendar calendar = Calendar.getInstance();
-//                                calendar.set(year, month, day);
-//                                binding.setBirthday(calendar.getTime());
-//                            }
-//                        };
-//                        DatePickerDialog dpd = DatePickerDialog.newInstance(listener,
-//                                defaultDate.get(Calendar.YEAR),
-//                                defaultDate.get(Calendar.MONTH),
-//                                defaultDate.get(Calendar.DAY_OF_MONTH)
-//                        );
-//                        dpd.setThemeDark(true);
-//                        dpd.vibrate(false);
-//                        dpd.showYearPickerFirst(true);
-//                        dpd.show(getFragmentManager(), DIALOG_TAG);
+                        new DatePickerDialog.Builder()
+                                .dateRange(1, 1, 1900, 1, 1, 2100)
+                                .initDate(binding.getBirthday())
+                                .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
+                                    @Override
+                                    public void onAction(Dialog dialog) {
+                                        LunarCalendar date = ((DatePickerDialog) dialog).getLunarCalendar();
+                                        binding.setBirthday(date.getDate());
+                                    }
+                                })
+                                .negativeAction(getString(R.string.cancel), null)
+                                .build(ContactDetailsActivity.this)
+                                .show();
                     }
                 });
 

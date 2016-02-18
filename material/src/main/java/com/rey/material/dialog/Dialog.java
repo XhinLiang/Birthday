@@ -1517,7 +1517,6 @@ public class Dialog extends android.app.Dialog {
             return this;
         }
 
-        // TODO 将具体的Builder实现转移到子类以方便使用
         // TODO 实现Parcelable接口
         public Builder title(CharSequence title) {
             mTitle = title;
