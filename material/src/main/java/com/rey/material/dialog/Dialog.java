@@ -123,7 +123,7 @@ public class Dialog extends android.app.Dialog {
         mActionMinWidth = ThemeUtil.dpToPx(context, 64);
         mActionHeight = ThemeUtil.dpToPx(context, 36);
         mActionOuterHeight = ThemeUtil.dpToPx(context, 48);
-        mActionPadding = ThemeUtil.dpToPx(context, 8);
+        mActionPadding = ThemeUtil.dpToPx(context, 0);
         mActionOuterPadding = ThemeUtil.dpToPx(context, 16);
         mDialogHorizontalPadding = ThemeUtil.dpToPx(context, 40);
         mDialogVerticalPadding = ThemeUtil.dpToPx(context, 24);

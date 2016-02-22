@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Checkable;
 
+import com.rey.material.dialog.Dialog;
+import com.rey.material.dialog.SimpleDialog;
+
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.util.XLog;
 import io.realm.Realm;
@@ -22,17 +25,21 @@ public class JustTest extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.just_test);
-        final Checkable switchView = (Checkable) findViewById(R.id.switch_view);
-        final android.os.Handler handler = new android.os.Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                switchView.setChecked(!switchView.isChecked());
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.postDelayed(runnable, 1000);
+        new SimpleDialog.Builder()
+                .title(getString(R.string.select_group))
+                .positiveAction(getString(R.string.select), new Dialog.Action1() {
+                    @Override
+                    public void onAction(Dialog dialog) {
+                    }
+                })
+                .neutralAction(getString(R.string.create), new Dialog.Action1() {
+                    @Override
+                    public void onAction(Dialog dialog) {
+                    }
+                })
+                .negativeAction(getString(R.string.cancel), null)
+                .build(this)
+                .show();
     }
 
     private void realm() {

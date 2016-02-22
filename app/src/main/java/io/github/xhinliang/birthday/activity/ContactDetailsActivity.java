@@ -329,7 +329,9 @@ public class ContactDetailsActivity extends RealmActivity {
                         realm.commitTransaction();
                     }
                 })
-                .negativeAction(getString(R.string.cancel), null);
+                .negativeAction(getString(R.string.cancel), null)
+                .build(this)
+                .show();
     }
 
     private void selectGroup(CharSequence[] groups) {
@@ -378,7 +380,9 @@ public class ContactDetailsActivity extends RealmActivity {
                 })
                 .negativeAction(getString(R.string.cancel), null)
                 .build(this);
-        ((EditText) dialog.findViewById(R.id.custom_et)).setText(origin);
+        EditText editText = ((EditText) dialog.findViewById(R.id.custom_et));
+        editText.setText(origin);
+        editText.setHint(title);
         dialog.show();
     }
 
