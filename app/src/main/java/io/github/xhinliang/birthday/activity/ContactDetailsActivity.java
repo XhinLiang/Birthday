@@ -6,27 +6,28 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.rey.material.dialog.DatePickerDialog;
 import com.rey.material.dialog.Dialog;
+import com.rey.material.dialog.SimpleDialog;
+import com.rey.material.widget.EditText;
 
 import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.birthday.rx.RxCheckBox;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
 import io.github.xhinliang.lib.util.ImageUtils;
 import io.github.xhinliang.lunarcalendar.LunarCalendar;
@@ -52,6 +53,7 @@ public class ContactDetailsActivity extends RealmActivity {
 
     private ActivityContactDetailsBinding binding;
     private String pictureName;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class ContactDetailsActivity extends RealmActivity {
         Parcelable parcelable = getIntent().getParcelableExtra(EXTRA_CONTACT);
         if (parcelable == null)
             return;
-        Contact contact = Parcels.unwrap(parcelable);
+        contact = Parcels.unwrap(parcelable);
         binding.setName(contact.getName());
         binding.setGroup(contact.getGroup());
         binding.setTelephone(contact.getTelephone());
@@ -152,9 +154,17 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
+                        Date initDate = binding.getBirthday();
+                        if (initDate == null) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.DAY_OF_MONTH, 6);
+                            calendar.set(Calendar.MONTH, Calendar.JANUARY);
+                            calendar.set(Calendar.YEAR, 1995);
+                            initDate = calendar.getTime();
+                        }
                         new DatePickerDialog.Builder()
                                 .dateRange(1, 1, 1900, 1, 1, 2100)
-                                .initDate(binding.getBirthday())
+                                .initDate(initDate)
                                 .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
                                     @Override
                                     public void onAction(Dialog dialog) {
@@ -175,7 +185,9 @@ public class ContactDetailsActivity extends RealmActivity {
                     @Override
                     public Void call(Void aVoid) {
                         realm.beginTransaction();
-                        Contact contact = realm.createObject(Contact.class);
+                        // 不等于空时为修改联系人的情况
+                        if (contact == null)
+                            contact = realm.createObject(Contact.class);
                         contact.setName(binding.getName());
                         contact.setGroup(binding.getGroup());
                         contact.setBirthday(binding.getBirthday());
@@ -192,9 +204,9 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        showSimpleDialog(R.string.result, R.string.success, new MaterialDialog.SingleButtonCallback() {
+                        showSimpleDialog(R.string.result, R.string.success, new Dialog.Action1() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            public void onAction(Dialog dialog) {
                                 finish();
                             }
                         });
@@ -218,24 +230,24 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean isChecked) {
-                        Log.d(TAG, "CheckedChange");
+                        XLog.d(TAG, "CheckedChange");
                         binding.setIsLunar(isChecked);
-                        Log.d(TAG, "isLunar " + binding.getIsLunar());
+                        XLog.d(TAG, "isLunar " + binding.getIsLunar());
                     }
                 });
     }
 
     private void askForCreateNewGroup() {
-        new MaterialDialog.Builder(ContactDetailsActivity.this)
-                .content(R.string.no_group_yet)
-                .positiveText(R.string.confirm)
-                .negativeText(R.string.cancel)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        new SimpleDialog.Builder()
+                .message(getString(R.string.no_group_yet))
+                .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onAction(Dialog dialog) {
                         createNewGroup();
                     }
                 })
+                .negativeAction(getString(R.string.cancel), null)
+                .build(this)
                 .show();
     }
 
@@ -277,7 +289,7 @@ public class ContactDetailsActivity extends RealmActivity {
                 .filter(new Func1<Bitmap, Boolean>() {
                     @Override
                     public Boolean call(Bitmap bitmap) {
-                        String savePath = String.format("avatar_%s_%d", binding.getName(), System.currentTimeMillis());
+                        String savePath = String.format("avatar_%s", binding.getName());
                         File file = new File(getFilesDir().getAbsolutePath(), savePath);
                         try {
                             FileOutputStream stream = new FileOutputStream(file);
@@ -304,44 +316,42 @@ public class ContactDetailsActivity extends RealmActivity {
 
 
     private void createNewGroup() {
-        new MaterialDialog.Builder(this)
-                .positiveText(R.string.confirm)
-                .negativeText(R.string.cancel)
-                .input(R.string.group_name, R.string.nothing, new MaterialDialog.InputCallback() {
+        new SimpleDialog.Builder()
+                .title(getString(R.string.create_group))
+                .contentView(R.layout.dialog_input)
+                .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
                     @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                    public void onAction(Dialog dialog) {
+                        String input = ((EditText) dialog.findViewById(R.id.custom_et)).getText().toString();
                         realm.beginTransaction();
                         Group group = realm.createObject(Group.class);
-                        group.setName(input.toString());
+                        group.setName(input);
                         realm.commitTransaction();
                     }
                 })
-                .show();
+                .negativeAction(getString(R.string.cancel), null);
     }
 
     private void selectGroup(CharSequence[] groups) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(ContactDetailsActivity.this)
-                .title(R.string.select_group)
-                .items(groups)
-                .positiveText(R.string.select)
-                .negativeText(R.string.cancel)
-                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+        new SimpleDialog.Builder()
+                .items(groups, 0)
+                .title(getString(R.string.select_group))
+                .positiveAction(getString(R.string.select), new Dialog.Action1() {
                     @Override
-                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        binding.setGroup(text.toString());
-                        return false;
+                    public void onAction(Dialog dialog) {
+                        CharSequence groupName = ((SimpleDialog) dialog).getSelectedValue();
+                        binding.setGroup(groupName.toString());
                     }
                 })
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                .neutralAction(getString(R.string.create), new Dialog.Action1() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onAction(Dialog dialog) {
                         createNewGroup();
                     }
-                });
-        // 限制为最多八个自定义群组
-        if (groups.length < 8)
-            builder.neutralText(R.string.create);
-        builder.show();
+                })
+                .negativeAction(getString(R.string.cancel), null)
+                .build(this)
+                .show();
     }
 
     private void initTextEvent(View view, final String title, final CharSequence origin, final setTextCallback listener) {
@@ -356,15 +366,20 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void setTextArg(CharSequence title, CharSequence origin, final setTextCallback listener) {
-        new MaterialDialog.Builder(this)
+        Dialog dialog = new SimpleDialog.Builder()
                 .title(title)
-                .input(title, origin, new MaterialDialog.InputCallback() {
+                .contentView(R.layout.dialog_input)
+                .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
                     @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        listener.onConfirm(input.toString());
+                    public void onAction(Dialog dialog) {
+                        String input = ((EditText) dialog.findViewById(R.id.custom_et)).getText().toString();
+                        listener.onConfirm(input);
                     }
                 })
-                .show();
+                .negativeAction(getString(R.string.cancel), null)
+                .build(this);
+        ((EditText) dialog.findViewById(R.id.custom_et)).setText(origin);
+        dialog.show();
     }
 
     private interface setTextCallback {

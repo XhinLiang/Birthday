@@ -5,7 +5,7 @@
     <string name="about">About</string>
     <string name="me">Me</string>
     <string name="system">System</string>
-    <string name="all_friend">Contact</string>
+    <string name="contact">Contact</string>
     <string name="prompt_username">Enter your username</string>
     <string name="prompt_password">Enter your password</string>
     <string name="login">Login</string>
@@ -49,6 +49,9 @@
     <string name="right_hand_mode">sdfsdfsf</string>
     <string name="general_settings">Setting</string>
     <string name="other">Other</string>
+    <string name="group_loading">Group is loading</string>
+    <string name="all">All</string>
+    <string name="create_group">Create new group</string>
 
 
 </resources>

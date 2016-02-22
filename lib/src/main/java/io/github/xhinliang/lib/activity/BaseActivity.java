@@ -3,8 +3,9 @@ package io.github.xhinliang.lib.activity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.jakewharton.rxbinding.view.RxView;
+import com.rey.material.dialog.Dialog;
+import com.rey.material.dialog.SimpleDialog;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -32,46 +33,36 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
 
     protected void showSimpleDialog(CharSequence content) {
-        new MaterialDialog.Builder(this)
-                .content(content)
-                .positiveText(R.string.confirm)
-                .build()
+        new SimpleDialog.Builder()
+                .message(content)
+                .positiveAction(getString(R.string.confirm), null)
+                .build(this)
                 .show();
     }
 
     protected void showSimpleDialog(int titleRes, int contentRes) {
-        new MaterialDialog.Builder(this)
-                .title(titleRes)
-                .content(contentRes)
-                .positiveText(R.string.confirm)
-                .build()
+        new SimpleDialog.Builder()
+                .message(getString(contentRes))
+                .title(getString(titleRes))
+                .positiveAction(getString(R.string.confirm), null)
+                .build(this)
                 .show();
     }
 
-    protected void showSimpleDialog(int titleRes, int contentRes,MaterialDialog.SingleButtonCallback callback) {
-        new MaterialDialog.Builder(this)
-                .title(titleRes)
-                .content(contentRes)
-                .positiveText(R.string.confirm)
-                .onPositive(callback)
-                .build()
-                .show();
-    }
-
-    protected void showSimpleDialog(int titleRes, CharSequence content) {
-        new MaterialDialog.Builder(this)
-                .title(titleRes)
-                .content(content)
-                .positiveText(R.string.confirm)
-                .build()
+    protected void showSimpleDialog(int titleRes, int contentRes, Dialog.Action1 callback) {
+        new SimpleDialog.Builder()
+                .message(getString(contentRes))
+                .title(getString(titleRes))
+                .positiveAction(getString(R.string.confirm), callback)
+                .build(this)
                 .show();
     }
 
     protected void showSimpleDialog(int contentRes) {
-        new MaterialDialog.Builder(this)
-                .content(contentRes)
-                .positiveText(R.string.confirm)
-                .build()
+        new SimpleDialog.Builder()
+                .message(getString(contentRes))
+                .positiveAction(getString(R.string.confirm), null)
+                .build(this)
                 .show();
     }
 

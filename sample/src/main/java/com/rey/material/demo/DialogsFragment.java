@@ -177,8 +177,7 @@ public class DialogsFragment extends Fragment implements View.OnClickListener {
                             public void onAction(Dialog dialog) {
                                 Toast.makeText(mActivity, "Cancelled", Toast.LENGTH_SHORT).show();
                             }
-                        })
-                ;
+                        });
                 fragment = DialogFragment.newInstance(builder);
                 fragment.show(getFragmentManager(), null);
                 break;
