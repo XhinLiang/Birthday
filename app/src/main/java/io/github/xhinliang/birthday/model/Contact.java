@@ -1,12 +1,15 @@
 package io.github.xhinliang.birthday.model;
 
 
+import android.util.Log;
+
 import org.parceler.Parcel;
 
 import java.util.Date;
 
 import io.realm.ContactRealmProxy;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -17,15 +20,19 @@ import io.realm.annotations.Required;
 public class Contact extends RealmObject {
     public static final String FIELD_GROUP = "group";
 
+    @PrimaryKey
+    private long createTimeMillis;
+
     @Required
     private String name;
 
+
+    private Boolean isLunar;
     private String telephone;
     private Date birthday;
     private String description;
     private String group;
     private String picture;
-    private Boolean isLunar;
 
     public Boolean getIsLunar() {
         return isLunar;
@@ -35,7 +42,16 @@ public class Contact extends RealmObject {
         this.isLunar = isLunar;
     }
 
+    public long getCreateTimeMillis() {
+        return createTimeMillis;
+    }
+
+    public void setCreateTimeMillis(long createTimeMillis) {
+        this.createTimeMillis = createTimeMillis;
+    }
+
     public Contact() {
+        this.createTimeMillis = System.currentTimeMillis();
     }
 
     public String getPicture() {

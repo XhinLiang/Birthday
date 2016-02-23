@@ -61,23 +61,47 @@ public class ContactDetailsActivity extends RealmActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contact_details);
         setSupportActionBar(binding.toolbar);
         setHasBackButton();
-        initEvent();
         checkIntent();
     }
 
     private void checkIntent() {
         Parcelable parcelable = getIntent().getParcelableExtra(EXTRA_CONTACT);
-        if (parcelable == null)
+        if (parcelable == null) {
+            // 新建联系人的情况
+            initCreateEvent();
             return;
+        }
+        // 此时为查看当前联系人的情况
         contact = Parcels.unwrap(parcelable);
         binding.setName(contact.getName());
         binding.setGroup(contact.getGroup());
         binding.setTelephone(contact.getTelephone());
         binding.setBirthday(contact.getBirthday());
         binding.setDescription(contact.getDescription());
+        binding.setIsLunar(contact.getIsLunar());
+        initViewEvent();
     }
 
-    private void initEvent() {
+    /**
+     * 查看当前联系人详情的情况
+     */
+    private void initViewEvent() {
+        binding.ivPicture.setAnimate(true);
+        binding.fabDone.setImageResource(R.drawable.ic_create_white_24dp);
+        setRxClick(binding.fabDone)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        initCreateEvent();
+                    }
+                });
+    }
+
+    /**
+     * 新建联系任的情况
+     */
+    private void initCreateEvent() {
         // 用户未设置图片时没有动画
         binding.ivPicture.setAnimate(false);
 
@@ -178,7 +202,7 @@ public class ContactDetailsActivity extends RealmActivity {
                     }
                 });
 
-
+        binding.fabDone.setImageResource(R.drawable.ic_done_white_24dp);
         setRxClick(binding.fabDone)
                 .filter(filter)
                 .map(new Func1<Void, Void>() {
@@ -187,7 +211,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         realm.beginTransaction();
                         // 不等于空时为修改联系人的情况
                         if (contact == null)
-                            contact = realm.createObject(Contact.class);
+                            contact = new Contact();
                         contact.setName(binding.getName());
                         contact.setGroup(binding.getGroup());
                         contact.setBirthday(binding.getBirthday());
@@ -195,6 +219,8 @@ public class ContactDetailsActivity extends RealmActivity {
                         contact.setTelephone(binding.getTelephone());
                         contact.setPicture(pictureName);
                         contact.setIsLunar(binding.getIsLunar());
+                        // pr
+                        contact = realm.copyToRealmOrUpdate(contact);
                         realm.commitTransaction();
                         return null;
                     }
@@ -225,6 +251,7 @@ public class ContactDetailsActivity extends RealmActivity {
                     }
                 });
 
+        binding.cbLunar.setEnabled(true);
         RxCheckBox.checkedChange(binding.cbLunar)
                 .compose(this.<Boolean>bindToLifecycle())
                 .subscribe(new Action1<Boolean>() {
