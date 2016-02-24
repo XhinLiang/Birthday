@@ -2,22 +2,16 @@
 <resources>
 
     <array name="entries_list_preference">
-        <item>fewf</item>
-        <item>fewf</item>
-        <item>fewf</item>
-        <item>fewf</item>
-        <item>fewf</item>
-        <item>fewf</item>
-        <item>fewf</item>
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
     </array>
     <array name="entryvalues_list_preference">
-        <item>wefwe</item>
-        <item>wefwe</item>
-        <item>wefwe</item>
-        <item>wefwe</item>
-        <item>wefwe</item>
-        <item>wefwe</item>
-        <item>wefwe</item>
+        <item>e</item>
+        <item>f</item>
+        <item>g</item>
+        <item>h</item>
     </array>
 
 </resources>

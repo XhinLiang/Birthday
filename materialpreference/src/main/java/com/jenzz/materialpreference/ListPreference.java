@@ -77,11 +77,13 @@ public class ListPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.mp_list_preference, defStyleAttr, defStyleRes);
-        mEntries = a.getTextArray(R.styleable.mp_list_preference_mpentries);
-        mEntryValues = a.getTextArray(R.styleable.mp_list_preference_mpentryValues);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.list_preference, defStyleAttr, defStyleRes);
+        mEntries = a.getTextArray(R.styleable.list_preference_entry_arr);
+        mEntryValues = a.getTextArray(R.styleable.list_preference_value_arr);
+        mSummary = a.getString(R.styleable.list_preference_format_str);
         a.recycle();
     }
+
 
     /**
      * Sets the human-readable entries to be shown in the list. This will be
@@ -172,7 +174,7 @@ public class ListPreference extends DialogPreference {
     @Override
     public CharSequence getSummary() {
         final CharSequence entry = getEntry();
-        if (mSummary == null) {
+        if (mSummary == null || entry == null) {
             return super.getSummary();
         } else {
             return String.format(mSummary, entry == null ? "" : entry);

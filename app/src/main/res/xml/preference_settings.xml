@@ -21,10 +21,11 @@
 
         <com.jenzz.materialpreference.ListPreference
             android:key="list_preferenc"
-            android:summary="一个使用了列表对话框的例子"
+            android:summary="请先进行选择"
             android:title="请选择一项"
-            app:mpentries="@array/entries_list_preference"
-            app:mpentryValues="@array/entryvalues_list_preference" />
+            app:entry_arr="@array/entries_list_preference"
+            app:format_str="呵呵%s哈哈哈"
+            app:value_arr="@array/entryvalues_list_preference" />
 
     </com.jenzz.materialpreference.PreferenceCategory>
 

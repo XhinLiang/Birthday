@@ -31,8 +31,7 @@ public class PreferenceHelper {
 
     public void saveParam(String key, String value) {
         SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString(key, value);
-        editor.apply();
+        editor.putString(key, value).apply();
     }
 
     public void saveParam(String key, boolean value) {

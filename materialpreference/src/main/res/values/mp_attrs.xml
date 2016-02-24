@@ -3,8 +3,9 @@
     <attr name="mp_colorAccent" format="reference|color" />
 
 
-    <declare-styleable name="mp_list_preference">
-        <attr name="mpentries" format="reference"/>
-        <attr name="mpentryValues" format="reference"/>
+    <declare-styleable name="list_preference">
+        <attr name="entry_arr" format="reference" />
+        <attr name="value_arr" format="reference" />
+        <attr name="format_str" format="string" />
     </declare-styleable>
 </resources>

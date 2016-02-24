@@ -9,6 +9,7 @@ import com.rey.material.dialog.SimpleDialog;
 
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.util.XLog;
+import io.github.xhinliang.lib.util.PreferenceHelper;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -25,6 +26,10 @@ public class JustTest extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        XLog.d(TAG, PreferenceHelper.getInstance(this).getString("list_preferenc", "eee"));
+    }
+
+    private void dialog() {
         new SimpleDialog.Builder()
                 .title(getString(R.string.select_group))
                 .positiveAction(getString(R.string.select), new Dialog.Action1() {
