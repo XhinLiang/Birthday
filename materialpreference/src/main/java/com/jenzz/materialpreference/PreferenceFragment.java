@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment {
 
-    private static final int PADDING_LEFT_RIGHT = 5;
+    private static final int PADDING_LEFT_RIGHT = 0;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -15,8 +15,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
         listView.setPadding(PADDING_LEFT_RIGHT, 0, PADDING_LEFT_RIGHT, 0);
         listView.setHorizontalScrollBarEnabled(false);
         listView.setVerticalScrollBarEnabled(false);
-        listView.setDividerHeight(0);
         listView.setFooterDividersEnabled(false);
-        listView.setHeaderDividersEnabled(false);
     }
 }

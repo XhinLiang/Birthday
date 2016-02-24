@@ -51,7 +51,6 @@ public abstract class TwoStatePreference extends Preference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        Log.d(TAG, "onBindView");
         Checkable checkable = (Checkable) view.findViewById(R.id.checkable);
         checkable.setChecked(isChecked);
         syncSummaryView();
@@ -59,7 +58,6 @@ public abstract class TwoStatePreference extends Preference {
 
     @Override
     protected void onClick() {
-        Log.d(TAG, "onClick");
         super.onClick();
         boolean newValue = !isChecked();
         if (callChangeListener(newValue)) {

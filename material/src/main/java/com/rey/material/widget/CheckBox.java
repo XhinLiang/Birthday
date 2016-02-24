@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import com.rey.material.drawable.CheckBoxDrawable;
 
 public class CheckBox extends CompoundButton {
-
     public CheckBox(Context context) {
         super(context);
     }

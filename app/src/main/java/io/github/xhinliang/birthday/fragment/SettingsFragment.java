@@ -1,6 +1,8 @@
 package io.github.xhinliang.birthday.fragment;
 
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceScreen;
 
 import com.jenzz.materialpreference.PreferenceFragment;
 

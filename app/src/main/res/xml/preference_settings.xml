@@ -1,48 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/general_settings">
+    <com.jenzz.materialpreference.PreferenceCategory android:title="Alert Settings">
         <com.jenzz.materialpreference.SwitchPreference
             android:key="preference_key_remind_the_same_day"
-            android:summary="@string/right_hand_mode_summary"
-            android:summaryOff="scened"
-            android:summaryOn="fewf"
-            android:title="@string/right_hand_mode" />
-        <com.jenzz.materialpreference.CheckBoxPreference
-            android:key="@string/card_note_item_layout_key"
-            android:title="@string/card_note_item_layout" />
-        <com.jenzz.materialpreference.Preference
-            android:key="@string/ever_note_account_key"
-            android:title="@string/bind_ever_note" />
-        <com.jenzz.materialpreference.Preference
-            android:key="@string/backup_local_key"
-            android:summary="@string/backup_local_summary"
-            android:title="@string/backup_local" />
-
+            android:summary="Alert in the birthday"
+            android:title="Alert first" />
+        <com.jenzz.materialpreference.SwitchPreference
+            android:key="preference_key_remind_the_same_day"
+            android:summary="Alert in three day before birthday"
+            android:title="Alert second" />
+        <com.jenzz.materialpreference.SwitchPreference
+            android:key="preference_key_remind_the_same_day"
+            android:summary="Alert in a week before the birthday"
+            android:title="Alert third" />
+        <com.jenzz.materialpreference.SwitchPreference
+            android:key="preference_key_remind_the_same_day"
+            android:summary="Alert in two weeks before the birthday"
+            android:title="Alert fourth" />
         <com.jenzz.materialpreference.ListPreference
-            android:key="list_preferenc"
-            android:summary="请先进行选择"
-            android:title="请选择一项"
-            app:entry_arr="@array/entries_list_preference"
-            app:format_str="呵呵%s哈哈哈"
-            app:value_arr="@array/entryvalues_list_preference" />
-
+            android:key="preference_key_alert_time"
+            android:summary="Select alert time"
+            android:title="Alert time"
+            app:entry_arr="@array/alert_time_entry"
+            app:format_str="%s"
+            app:value_arr="@array/alert_time_value" />
     </com.jenzz.materialpreference.PreferenceCategory>
 
-    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/other">
-        <com.jenzz.materialpreference.Preference
-            android:key="@string/advice_feedback_key"
-            android:title="@string/advice_feedback" />
-        <com.jenzz.materialpreference.Preference
-            android:key="@string/give_favor_key"
-            android:title="@string/give_favor" />
-    </com.jenzz.materialpreference.PreferenceCategory>
-
-    <SwitchPreference
-        android:key="@string/advice_feedback_key"
-        android:title="@string/advice_feedback" />
-
-    <CheckBoxPreference
-        android:key="@string/advice_feedback_key"
-        android:title="@string/advice_feedback" />
 </PreferenceScreen>
