@@ -25,7 +25,7 @@
             android:paddingRight="12dp"
             android:paddingTop="4dp">
 
-            <com.jenzz.materialpreference.PreferenceImageView
+            <com.jenzz.materialpreference.widget.PreferenceImageView
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 
+import com.jenzz.materialpreference.R;
+
 import static android.graphics.Color.parseColor;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;

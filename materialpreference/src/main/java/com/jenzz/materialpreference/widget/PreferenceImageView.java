@@ -1,4 +1,4 @@
-package com.jenzz.materialpreference;
+package com.jenzz.materialpreference.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -16,7 +16,6 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.text.TextUtils.isEmpty;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.jenzz.materialpreference.Typefaces.getRobotoRegular;
 
 public class Preference extends android.preference.Preference {
 
@@ -82,13 +81,13 @@ public class Preference extends android.preference.Preference {
         titleText = (TextView) view.findViewById(R.id.title);
         titleText.setText(title);
         titleText.setVisibility(!isEmpty(title) ? VISIBLE : GONE);
-        titleText.setTypeface(getRobotoRegular(getContext()));
+        titleText.setTypeface(Typefaces.getRobotoRegular(getContext()));
 
         CharSequence summary = getSummary();
         summaryText = (TextView) view.findViewById(R.id.summary);
         summaryText.setText(summary);
         summaryText.setVisibility(!isEmpty(summary) ? VISIBLE : GONE);
-        summaryText.setTypeface(getRobotoRegular(getContext()));
+        summaryText.setTypeface(Typefaces.getRobotoRegular(getContext()));
 
         if (icon == null && iconResId > 0) {
             icon = getContext().getResources().getDrawable(iconResId);

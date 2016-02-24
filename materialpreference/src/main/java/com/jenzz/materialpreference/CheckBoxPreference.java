@@ -1,10 +1,10 @@
 package com.jenzz.materialpreference;
 
 import android.content.Context;
+import android.preference.MultiSelectListPreference;
 import android.util.AttributeSet;
 
 public class CheckBoxPreference extends TwoStatePreference {
-
     public CheckBoxPreference(Context context) {
         super(context);
         init(context, null, 0, 0);

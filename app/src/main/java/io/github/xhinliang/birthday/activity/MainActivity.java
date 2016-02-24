@@ -22,7 +22,9 @@ import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.activity.RealmActivity;
+import io.github.xhinliang.lib.util.PreferenceHelper;
 import io.realm.RealmResults;
 import rx.functions.Action1;
 
