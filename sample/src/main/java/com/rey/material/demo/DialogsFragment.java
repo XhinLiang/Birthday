@@ -105,7 +105,7 @@ public class DialogsFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.dialog_bt_title_only:
-                new SimpleDialog.Builder(isLightTheme ? R.style.SimpleDialogLight : R.style.SimpleDialog)
+                new SimpleDialog.Builder()
                         .title("Discard draft?")
                         .positiveAction("DISCARD", new Dialog.Action1() {
                             @Override

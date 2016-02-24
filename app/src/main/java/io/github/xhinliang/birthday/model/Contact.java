@@ -1,14 +1,16 @@
 package io.github.xhinliang.birthday.model;
 
 
-import android.util.Log;
-
 import org.parceler.Parcel;
 
+import java.util.Calendar;
 import java.util.Date;
 
+import io.github.xhinliang.lunarcalendar.Lunar;
+import io.github.xhinliang.lunarcalendar.LunarCalendar;
 import io.realm.ContactRealmProxy;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -19,26 +21,29 @@ import io.realm.annotations.Required;
 @Parcel(implementations = {ContactRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {Contact.class})
 public class Contact extends RealmObject {
     public static final String FIELD_GROUP = "group";
+    public static final int DEFAULT_DAY_RANGE = 4000;
 
     @PrimaryKey
     private long createTimeMillis;
-
     @Required
     private String name;
 
+    @Ignore
+    private int dayRange = DEFAULT_DAY_RANGE;
 
-    private Boolean isLunar;
+    private boolean isLunar;
     private String telephone;
-    private Date birthday;
+    private Date bornDay;
     private String description;
     private String group;
     private String picture;
 
-    public Boolean getIsLunar() {
+
+    public boolean getIsLunar() {
         return isLunar;
     }
 
-    public void setIsLunar(Boolean isLunar) {
+    public void setIsLunar(boolean isLunar) {
         this.isLunar = isLunar;
     }
 
@@ -78,12 +83,12 @@ public class Contact extends RealmObject {
         this.telephone = telephone;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Date getBornDay() {
+        return bornDay;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBornDay(Date bornDay) {
+        this.bornDay = bornDay;
     }
 
     public String getDescription() {

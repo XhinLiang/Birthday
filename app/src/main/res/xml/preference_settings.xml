@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.jenzz.materialpreference.PreferenceCategory android:title="@string/general_settings">
         <com.jenzz.materialpreference.SwitchPreference
-            android:key="sfewf"
-            android:summaryOn="fewf"
-            android:summaryOff="sfefdd"
+            android:key="preference_key_remind_the_same_day"
             android:summary="@string/right_hand_mode_summary"
+            android:summaryOff="scened"
+            android:summaryOn="fewf"
             android:title="@string/right_hand_mode" />
         <com.jenzz.materialpreference.CheckBoxPreference
             android:key="@string/card_note_item_layout_key"
@@ -17,6 +18,14 @@
             android:key="@string/backup_local_key"
             android:summary="@string/backup_local_summary"
             android:title="@string/backup_local" />
+
+        <com.jenzz.materialpreference.ListPreference
+            android:key="list_preferenc"
+            android:summary="一个使用了列表对话框的例子"
+            android:title="请选择一项"
+            app:mpentries="@array/entries_list_preference"
+            app:mpentryValues="@array/entryvalues_list_preference" />
+
     </com.jenzz.materialpreference.PreferenceCategory>
 
     <com.jenzz.materialpreference.PreferenceCategory android:title="@string/other">

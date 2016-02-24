@@ -76,7 +76,7 @@ public class ContactDetailsActivity extends RealmActivity {
         binding.setName(contact.getName());
         binding.setGroup(contact.getGroup());
         binding.setTelephone(contact.getTelephone());
-        binding.setBirthday(contact.getBirthday());
+        binding.setBirthday(contact.getBornDay());
         binding.setDescription(contact.getDescription());
         binding.setIsLunar(contact.getIsLunar());
         initViewEvent();
@@ -214,12 +214,11 @@ public class ContactDetailsActivity extends RealmActivity {
                             contact = new Contact();
                         contact.setName(binding.getName());
                         contact.setGroup(binding.getGroup());
-                        contact.setBirthday(binding.getBirthday());
+                        contact.setBornDay(binding.getBirthday());
                         contact.setDescription(binding.getDescription());
                         contact.setTelephone(binding.getTelephone());
                         contact.setPicture(pictureName);
-                        contact.setIsLunar(binding.getIsLunar());
-                        // pr
+                        contact.setIsLunar(binding.getIsLunar() == null ? false : binding.getIsLunar());
                         contact = realm.copyToRealmOrUpdate(contact);
                         realm.commitTransaction();
                         return null;
@@ -233,6 +232,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         showSimpleDialog(R.string.result, R.string.success, new Dialog.Action1() {
                             @Override
                             public void onAction(Dialog dialog) {
+                                dialog.dismiss();
                                 finish();
                             }
                         });
@@ -263,6 +263,7 @@ public class ContactDetailsActivity extends RealmActivity {
                     }
                 });
     }
+
 
     private void askForCreateNewGroup() {
         new SimpleDialog.Builder()

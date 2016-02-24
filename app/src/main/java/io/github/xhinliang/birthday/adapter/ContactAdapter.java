@@ -16,6 +16,7 @@ import io.github.xhinliang.birthday.rx.RealmRecyclerView;
 import io.github.xhinliang.lib.util.ImageUtils;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -65,6 +66,12 @@ public class ContactAdapter extends RealmRecyclerView.ListAdapter<Contact, Conta
         } else
             holder.binding.ivAvatar.setImageResource(R.drawable.ic_account_box_black_24dp);
         holder.itemView.setTag(item);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
     }
 
     //重载这个方法并设置 RecyclerView#setHasStableIds 能大幅度提高性能

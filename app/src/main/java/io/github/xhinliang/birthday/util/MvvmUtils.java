@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.xhinliang.birthday.model.Contact;
+import io.github.xhinliang.lib.util.CalendarUtils;
 import io.github.xhinliang.lunarcalendar.LunarCalendar;
 
 /**
@@ -20,7 +22,6 @@ public class MvvmUtils {
      * @param date date
      * @return dateString
      */
-    @SuppressWarnings("unused")
     public static String getBirthday(Date date, Boolean isLunar) {
         if (date == null)
             return "";
@@ -28,10 +29,25 @@ public class MvvmUtils {
             return format.format(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return LunarCalendar
-                .getInstance(calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
+        return LunarCalendar.getInstance(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
                 .getFullLunarStr();
+    }
+
+    /**
+     * recycler_item_contact.xml
+     * 获取今天与生日距离的天数
+     *
+     * @param contact contact
+     * @return 天数
+     */
+    public static String getDayRange(Contact contact) {
+        Calendar bornCalendar = Calendar.getInstance();
+        bornCalendar.setTime(contact.getBornDay());
+        if (contact.getIsLunar()) {
+            return CalendarUtils.computeLunarRange(bornCalendar) + "";
+        }
+        return CalendarUtils.getGregorianRange(bornCalendar) + "";
     }
 
 

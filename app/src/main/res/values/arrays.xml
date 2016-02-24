@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="entries_list_preference">
+        <item>fewf</item>
+        <item>fewf</item>
+        <item>fewf</item>
+        <item>fewf</item>
+        <item>fewf</item>
+        <item>fewf</item>
+        <item>fewf</item>
+    </array>
+    <array name="entryvalues_list_preference">
+        <item>wefwe</item>
+        <item>wefwe</item>
+        <item>wefwe</item>
+        <item>wefwe</item>
+        <item>wefwe</item>
+        <item>wefwe</item>
+        <item>wefwe</item>
+    </array>
+
 </resources>

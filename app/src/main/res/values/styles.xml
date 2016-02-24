@@ -3,16 +3,13 @@
     <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme" parent="@style/BaseTheme">
         <item name="selectableItemBackground">@drawable/selector</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
     </style>
 
+    <style name="AppTheme" parent="@style/BaseTheme"/>
+
     <style name="ScrollTheme" parent="AppTheme" />
-
-
 
     <style name="MaterialButton">
         <item name="android:layout_height">@dimen/material_button_height</item>

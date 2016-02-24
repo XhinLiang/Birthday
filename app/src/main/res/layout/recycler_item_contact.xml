@@ -1,8 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
 
         <import type="io.github.xhinliang.birthday.util.MvvmUtils" />
 
@@ -34,25 +33,62 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_account_box_black_24dp" />
 
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="fill_parent"
-                android:layout_height="26dip"
+
+            <LinearLayout
+                android:id="@+id/ll_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_toEndOf="@id/ivAvatar"
                 android:layout_toRightOf="@id/ivAvatar"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="@{MvvmUtils.getBirthday(contact.birthday,contact.isLunar)}"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="26dip"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="@{MvvmUtils.getBirthday(contact.bornDay,contact.isLunar)}"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dip"
+                    android:singleLine="true"
+                    android:text="@string/range_front"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dip"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:singleLine="true"
+                    android:text="@{MvvmUtils.getDayRange(contact)}"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    tools:text="5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dip"
+                    android:singleLine="true"
+                    android:text="@string/range_behind"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/subtitle"
+                android:layout_above="@id/ll_sub"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"

@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 public class PreferenceFragment extends android.preference.PreferenceFragment {
 
-    private static final int PADDING_LEFT_RIGHT = 2;
+    private static final int PADDING_LEFT_RIGHT = 5;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

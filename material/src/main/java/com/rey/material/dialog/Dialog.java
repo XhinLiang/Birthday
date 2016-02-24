@@ -123,7 +123,7 @@ public class Dialog extends android.app.Dialog {
         mActionMinWidth = ThemeUtil.dpToPx(context, 64);
         mActionHeight = ThemeUtil.dpToPx(context, 36);
         mActionOuterHeight = ThemeUtil.dpToPx(context, 48);
-        mActionPadding = ThemeUtil.dpToPx(context, 0);
+        mActionPadding = ThemeUtil.dpToPx(context, 4);
         mActionOuterPadding = ThemeUtil.dpToPx(context, 16);
         mDialogHorizontalPadding = ThemeUtil.dpToPx(context, 40);
         mDialogVerticalPadding = ThemeUtil.dpToPx(context, 24);
@@ -269,10 +269,6 @@ public class Dialog extends android.app.Dialog {
                 neutralActionTextAppearance = a.getResourceId(attr, 0);
             else if (attr == R.styleable.Dialog_di_neutralActionTextColor)
                 neutralActionTextColors = a.getColorStateList(attr);
-            else if (attr == R.styleable.Dialog_di_inAnimation)
-                inAnimation(a.getResourceId(attr, 0));
-            else if (attr == R.styleable.Dialog_di_outAnimation)
-                outAnimation(a.getResourceId(attr, 0));
             else if (attr == R.styleable.Dialog_di_dividerColor)
                 dividerColor(a.getColor(attr, 0));
             else if (attr == R.styleable.Dialog_di_dividerHeight)
@@ -284,6 +280,9 @@ public class Dialog extends android.app.Dialog {
         }
 
         a.recycle();
+
+        inAnimation(R.anim.anim_scale_in);
+        outAnimation(R.anim.anim_scale_out);
 
         if (layoutParamsDefined)
             layoutParams(layout_width, layout_height);
