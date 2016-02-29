@@ -3,6 +3,9 @@ package com.jenzz.materialpreference;
 import android.content.Context;
 import android.preference.MultiSelectListPreference;
 import android.util.AttributeSet;
+import android.view.View;
+
+import com.rey.material.widget.CheckBox;
 
 public class CheckBoxPreference extends TwoStatePreference {
     public CheckBoxPreference(Context context) {
@@ -30,4 +33,11 @@ public class CheckBoxPreference extends TwoStatePreference {
         setWidgetLayoutResource(R.layout.mp_checkbox_preference);
     }
 
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkable);
+        checkBox.setCheckedImmediately(isChecked());
+        syncSummaryView();
+    }
 }

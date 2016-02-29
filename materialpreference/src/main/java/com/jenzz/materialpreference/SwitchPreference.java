@@ -2,6 +2,8 @@ package com.jenzz.materialpreference;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.Checkable;
 
 public class SwitchPreference extends TwoStatePreference {
 
@@ -31,5 +33,11 @@ public class SwitchPreference extends TwoStatePreference {
         setWidgetLayoutResource(R.layout.mp_switch_preference);
     }
 
-
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        Checkable checkable = (Checkable) view.findViewById(R.id.checkable);
+        checkable.setChecked(isChecked());
+        syncSummaryView();
+    }
 }

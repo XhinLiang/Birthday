@@ -38,6 +38,7 @@ public abstract class TwoStatePreference extends Preference {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    @SuppressWarnings("ResourceType")
     protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{
                 android.R.attr.summaryOn, android.R.attr.summaryOff, android.R.attr.disableDependentsState
@@ -48,13 +49,6 @@ public abstract class TwoStatePreference extends Preference {
         typedArray.recycle();
     }
 
-    @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        Checkable checkable = (Checkable) view.findViewById(R.id.checkable);
-        checkable.setChecked(isChecked);
-        syncSummaryView();
-    }
 
     @Override
     protected void onClick() {
@@ -96,7 +90,7 @@ public abstract class TwoStatePreference extends Preference {
 
     @Override
     public boolean shouldDisableDependents() {
-        boolean shouldDisable = disableDependentsState ? isChecked : !isChecked;
+        boolean shouldDisable = disableDependentsState == isChecked;
         return shouldDisable || super.shouldDisableDependents();
     }
 
@@ -192,7 +186,7 @@ public abstract class TwoStatePreference extends Preference {
     /**
      * Sync a summary view contained within view's sub hierarchy with the correct summary text.
      */
-    private void syncSummaryView() {
+    void syncSummaryView() {
         Log.d(TAG, "syncSummaryView");
         // Sync the summary view
         boolean useDefaultSummary = true;

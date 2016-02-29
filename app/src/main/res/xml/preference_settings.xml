@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.jenzz.materialpreference.PreferenceCategory android:title="Alert Settings">
-        <com.jenzz.materialpreference.SwitchPreference
+        <com.jenzz.materialpreference.CheckBoxPreference
             android:key="preference_key_remind_the_same_day"
             android:summary="Alert in the birthday"
             android:title="Alert first" />
