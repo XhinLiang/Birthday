@@ -1501,6 +1501,7 @@ public class Dialog extends android.app.Dialog {
         protected CharSequence mTitle, mPositiveText, mNegativeText, mNeutralText;
         protected Action1 onPositive, onNegative, onNeutral;
         protected Action1 onDismissCallback;
+        protected View mContentView;
         private boolean autoDismiss = true;
 
         public Builder() {
@@ -1513,6 +1514,13 @@ public class Dialog extends android.app.Dialog {
 
         public Builder contentView(int layoutId) {
             mContentViewId = layoutId;
+            mContentView = null;
+            return this;
+        }
+
+        public Builder contentView(View view) {
+            mContentViewId = -0;
+            mContentView = view;
             return this;
         }
 
@@ -1569,6 +1577,9 @@ public class Dialog extends android.app.Dialog {
 
             if (mContentViewId != 0)
                 mDialog.contentView(mContentViewId);
+            else if (mContentView != null) {
+                mDialog.contentView(mContentView);
+            }
 
             onBuildDone(mDialog);
 

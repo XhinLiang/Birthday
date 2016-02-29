@@ -10,8 +10,8 @@
             android:key="preference_key_remind_the_same_day"
             android:summary="Alert in three day before birthday"
             android:title="Alert second" />
-        <com.jenzz.materialpreference.SwitchPreference
-            android:key="preference_key_remind_the_same_day"
+        <com.jenzz.materialpreference.EditTextPreference
+            android:key="preference_key_remind_the_same_daywwwd"
             android:summary="Alert in a week before the birthday"
             android:title="Alert third" />
         <com.jenzz.materialpreference.SwitchPreference

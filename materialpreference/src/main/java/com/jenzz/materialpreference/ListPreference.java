@@ -21,7 +21,7 @@ public class ListPreference extends DialogPreference {
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private String mValue;
-    private String mSummary;
+    private String mFormat;
     private int mClickedDialogEntryIndex;
     private boolean mValueSet;
 
@@ -80,7 +80,7 @@ public class ListPreference extends DialogPreference {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.list_preference, defStyleAttr, defStyleRes);
         mEntries = a.getTextArray(R.styleable.list_preference_entry_arr);
         mEntryValues = a.getTextArray(R.styleable.list_preference_value_arr);
-        mSummary = a.getString(R.styleable.list_preference_format_str);
+        mFormat = a.getString(R.styleable.list_preference_format_str);
         a.recycle();
     }
 
@@ -174,29 +174,10 @@ public class ListPreference extends DialogPreference {
     @Override
     public CharSequence getSummary() {
         final CharSequence entry = getEntry();
-        if (mSummary == null || entry == null) {
+        if (mFormat == null || entry == null) {
             return super.getSummary();
         } else {
-            return String.format(mSummary, entry == null ? "" : entry);
-        }
-    }
-
-    /**
-     * Sets the summary for this Preference with a CharSequence.
-     * If the summary has a
-     * {@linkplain java.lang.String#format String formatting}
-     * marker in it (i.e. "%s" or "%1$s"), then the current entry
-     * value will be substituted in its place when it's retrieved.
-     *
-     * @param summary The summary for the preference.
-     */
-    @Override
-    public void setSummary(CharSequence summary) {
-        super.setSummary(summary);
-        if (summary == null && mSummary != null) {
-            mSummary = null;
-        } else if (summary != null && !summary.equals(mSummary)) {
-            mSummary = summary.toString();
+            return String.format(mFormat, entry);
         }
     }
 
@@ -240,7 +221,6 @@ public class ListPreference extends DialogPreference {
     private int getValueIndex() {
         return findIndexOfValue(mValue);
     }
-
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {

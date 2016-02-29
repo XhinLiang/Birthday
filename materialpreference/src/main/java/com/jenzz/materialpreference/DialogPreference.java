@@ -32,10 +32,6 @@ public abstract class DialogPreference extends Preference {
     protected CharSequence mPositiveButtonText;
     protected CharSequence mNegativeButtonText;
 
-
-    /**
-     * The dialog, if it is showing.
-     */
     protected Dialog mDialog;
 
     public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -45,7 +41,7 @@ public abstract class DialogPreference extends Preference {
 
     private void init(Context context) {
         mDialogTitle = getTitle();
-        mPositiveButtonText = context.getText(R.string.comfirm);
+        mPositiveButtonText = context.getText(R.string.confirm);
         mNegativeButtonText = context.getText(R.string.cancel);
     }
 
