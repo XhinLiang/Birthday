@@ -19,7 +19,7 @@ public class PreferenceHelper {
     private SharedPreferences mySharedPreferences;
 
 
-    //使用单例模式
+    // 使用单例模式
     public static PreferenceHelper getInstance(Context context) {
         if (sPreferenceHelper == null) {
             sPreferenceHelper = new PreferenceHelper();

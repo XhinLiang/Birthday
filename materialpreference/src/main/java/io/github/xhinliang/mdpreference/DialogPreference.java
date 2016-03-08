@@ -1,25 +1,13 @@
-package com.jenzz.materialpreference;
+package io.github.xhinliang.mdpreference;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.rey.material.dialog.Dialog;
-import com.rey.material.dialog.SimpleDialog;
 
 /**
  * Created by xhinliang on 16-2-23.

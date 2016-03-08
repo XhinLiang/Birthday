@@ -84,7 +84,8 @@ public class DialogsFragment extends Fragment implements View.OnClickListener {
                 mBottomSheetDialog.heightParam(ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         });
-        mBottomSheetDialog.contentView(v)
+        mBottomSheetDialog
+                .contentView(v)
                 .show();
     }
 
@@ -123,7 +124,7 @@ public class DialogsFragment extends Fragment implements View.OnClickListener {
                         })
                         .build(mActivity)
                         .show();
-            break;
+                break;
             case R.id.dialog_bt_msg_only:
                 new SimpleDialog.Builder(isLightTheme ? R.style.SimpleDialogLight : R.style.SimpleDialog)
                         .message("Delete this conversation?")

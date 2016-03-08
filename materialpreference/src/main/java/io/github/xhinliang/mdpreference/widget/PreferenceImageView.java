@@ -1,4 +1,4 @@
-package com.jenzz.materialpreference.widget;
+package io.github.xhinliang.mdpreference.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;

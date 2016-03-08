@@ -22,4 +22,5 @@ public class App extends Application {
                 .build();
         Realm.setDefaultConfiguration(configuration);
     }
+
 }

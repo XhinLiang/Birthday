@@ -1,4 +1,4 @@
-package com.jenzz.materialpreference;
+package io.github.xhinliang.mdpreference;
 
 import android.content.Context;
 import android.graphics.Typeface;

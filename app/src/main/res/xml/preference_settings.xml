@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.jenzz.materialpreference.PreferenceCategory android:title="Alert Settings">
-        <com.jenzz.materialpreference.CheckBoxPreference
+    <io.github.xhinliang.mdpreference.PreferenceCategory android:title="Alert Settings">
+        <io.github.xhinliang.mdpreference.CheckBoxPreference
             android:key="preference_key_remind_the_same_day"
             android:summary="Alert in the birthday"
             android:title="Alert first" />
-        <com.jenzz.materialpreference.SwitchPreference
+        <io.github.xhinliang.mdpreference.SwitchPreference
             android:key="preference_key_remind_the_same_day"
             android:summary="Alert in three day before birthday"
             android:title="Alert second" />
-        <com.jenzz.materialpreference.EditTextPreference
+        <io.github.xhinliang.mdpreference.EditTextPreference
             android:key="preference_key_remind_the_same_daywwwd"
             android:summary="Alert in a week before the birthday"
             android:title="Alert third" />
-        <com.jenzz.materialpreference.SwitchPreference
+        <io.github.xhinliang.mdpreference.SwitchPreference
             android:key="preference_key_remind_the_same_day"
             android:summary="Alert in two weeks before the birthday"
             android:title="Alert fourth" />
-        <com.jenzz.materialpreference.ListPreference
+        <io.github.xhinliang.mdpreference.ListPreference
             android:key="preference_key_alert_time"
             android:summary="Select alert time"
             android:title="Alert time"
             app:entry_arr="@array/alert_time_entry"
             app:format_str="%s"
             app:value_arr="@array/alert_time_value" />
-    </com.jenzz.materialpreference.PreferenceCategory>
+    </io.github.xhinliang.mdpreference.PreferenceCategory>
 
 </PreferenceScreen>
