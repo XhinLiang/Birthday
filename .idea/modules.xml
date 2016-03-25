@@ -6,7 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/material/material.iml" filepath="$PROJECT_DIR$/material/material.iml" />
-      <module fileurl="file://$PROJECT_DIR$/materialpreference/materialpreference.iml" filepath="$PROJECT_DIR$/materialpreference/materialpreference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mdpreference/materialpreference.iml" filepath="$PROJECT_DIR$/mdpreference/materialpreference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mdpreference/mdpreference.iml" filepath="$PROJECT_DIR$/mdpreference/mdpreference.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>

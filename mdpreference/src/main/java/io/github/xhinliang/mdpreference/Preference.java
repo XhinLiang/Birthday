@@ -58,7 +58,6 @@ public class Preference extends android.preference.Preference {
 
     @Override
     protected View onCreateView(ViewGroup parent) {
-        super.onCreateView(parent);
         LayoutInflater layoutInflater =
                 (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.mp_preference, parent, false);
@@ -75,8 +74,6 @@ public class Preference extends android.preference.Preference {
 
     @Override
     protected void onBindView(View view) {
-        super.onBindView(view);
-
         CharSequence title = getTitle();
         titleText = (TextView) view.findViewById(R.id.title);
         titleText.setText(title);

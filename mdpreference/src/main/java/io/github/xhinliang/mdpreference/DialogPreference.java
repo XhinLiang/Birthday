@@ -6,6 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.rey.material.dialog.Dialog;
 
@@ -48,90 +50,41 @@ public abstract class DialogPreference extends Preference {
         init(context);
     }
 
-    /**
-     * Sets the title of the dialog. This will be shown on subsequent dialogs.
-     *
-     * @param dialogTitle The title.
-     */
     public void setDialogTitle(CharSequence dialogTitle) {
         mDialogTitle = dialogTitle;
     }
 
-    /**
-     * @param dialogTitleResId The dialog title as a resource.
-     * @see #setDialogTitle(CharSequence)
-     */
     public void setDialogTitle(int dialogTitleResId) {
         setDialogTitle(getContext().getString(dialogTitleResId));
     }
 
-    /**
-     * Returns the title to be shown on subsequent dialogs.
-     *
-     * @return The title.
-     */
     public CharSequence getDialogTitle() {
         return mDialogTitle;
     }
 
-    /**
-     * Sets the message of the dialog. This will be shown on subsequent dialogs.
-     * <p/>
-     * This message forms the content View of the dialog and conflicts with
-     * list-based dialogs, for example. If setting a custom View on a dialog via
-     * {@link android.R.id#message} and it will be populated with this message.
-     *
-     * @param dialogMessage The message.
-     */
     public void setDialogMessage(CharSequence dialogMessage) {
         mDialogMessage = dialogMessage;
     }
 
-    /**
-     * Returns the message to be shown on subsequent dialogs.
-     *
-     * @return The message.
-     */
     public CharSequence getDialogMessage() {
         return mDialogMessage;
     }
 
-    /**
-     * Sets the text of the positive button of the dialog. This will be shown on
-     * subsequent dialogs.
-     *
-     * @param positiveButtonText The text of the positive button.
-     */
     public void setPositiveButtonText(CharSequence positiveButtonText) {
         mPositiveButtonText = positiveButtonText;
     }
 
-    /**
-     * @param positiveButtonTextResId The positive button text as a resource.
-     * @see #setPositiveButtonText(CharSequence)
-     */
     public void setPositiveButtonText(@StringRes int positiveButtonTextResId) {
         setPositiveButtonText(getContext().getString(positiveButtonTextResId));
     }
 
-    /**
-     * Sets the text of the negative button of the dialog. This will be shown on
-     * subsequent dialogs.
-     *
-     * @param negativeButtonText The text of the negative button.
-     */
     public void setNegativeButtonText(CharSequence negativeButtonText) {
         mNegativeButtonText = negativeButtonText;
     }
 
-    /**
-     * @param negativeButtonTextResId The negative button text as a resource.
-     * @see #setNegativeButtonText(CharSequence)
-     */
     public void setNegativeButtonText(@StringRes int negativeButtonTextResId) {
         setNegativeButtonText(getContext().getString(negativeButtonTextResId));
     }
-
 
     @Override
     protected void onClick() {
@@ -139,32 +92,24 @@ public abstract class DialogPreference extends Preference {
         showDialog(null);
     }
 
-    /**
-     * Shows the dialog associated with this Preference. This is normally initiated
-     * automatically on clicking on the preference. Call this method if you need to
-     * show the dialog on some other event.
-     *
-     * @param state Optional instance state to restore on the dialog
-     */
-    protected void showDialog(Bundle state) {
+    protected abstract void onShowDialog(Bundle state);
 
+    private void showDialog(Bundle bundle){
+        onShowDialog(bundle);
+        if (needInputMethod()) {
+            requestInputMethod(mDialog);
+        }
     }
 
-    /**
-     * Returns whether the preference needs to display a soft input method when the dialog
-     * is displayed. Default is false. Subclasses should override this method if they need
-     * the soft input method brought up automatically.
-     */
     protected boolean needInputMethod() {
         return false;
     }
 
+    private void requestInputMethod(android.app.Dialog dialog) {
+        Window window = dialog.getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
 
-    /**
-     * Gets the dialog that is shown by this preference.
-     *
-     * @return The dialog, or null if a dialog is not being shown.
-     */
     public Dialog getDialog() {
         return mDialog;
     }
@@ -177,7 +122,7 @@ public abstract class DialogPreference extends Preference {
             return superState;
         }
 
-        final SavedState myState = new SavedState(superState);
+        final DialogSavedState myState = new DialogSavedState(superState);
         myState.isDialogShowing = true;
         myState.dialogBundle = mDialog.onSaveInstanceState();
         return myState;
@@ -185,24 +130,24 @@ public abstract class DialogPreference extends Preference {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state == null || !state.getClass().equals(SavedState.class)) {
+        if (state == null || !state.getClass().equals(DialogSavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;
         }
 
-        SavedState myState = (SavedState) state;
+        DialogSavedState myState = (DialogSavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
         if (myState.isDialogShowing) {
             showDialog(myState.dialogBundle);
         }
     }
 
-    private static class SavedState extends BaseSavedState {
+    protected static class DialogSavedState extends BaseSavedState {
         boolean isDialogShowing;
         Bundle dialogBundle;
 
-        public SavedState(Parcel source) {
+        public DialogSavedState(Parcel source) {
             super(source);
             isDialogShowing = source.readInt() == 1;
             dialogBundle = source.readBundle();
@@ -215,18 +160,18 @@ public abstract class DialogPreference extends Preference {
             dest.writeBundle(dialogBundle);
         }
 
-        public SavedState(Parcelable superState) {
+        public DialogSavedState(Parcelable superState) {
             super(superState);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
+        public static final Parcelable.Creator<DialogSavedState> CREATOR =
+                new Parcelable.Creator<DialogSavedState>() {
+                    public DialogSavedState createFromParcel(Parcel in) {
+                        return new DialogSavedState(in);
                     }
 
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
+                    public DialogSavedState[] newArray(int size) {
+                        return new DialogSavedState[size];
                     }
                 };
     }

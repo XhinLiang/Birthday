@@ -43,6 +43,8 @@ public class MvvmUtils {
      */
     public static String getDayRange(Contact contact) {
         Calendar bornCalendar = Calendar.getInstance();
+        if (contact.getBornDay() == null)
+            return "null";
         bornCalendar.setTime(contact.getBornDay());
         if (contact.getIsLunar()) {
             return CalendarUtils.computeLunarRange(bornCalendar) + "";

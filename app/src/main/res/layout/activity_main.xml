@@ -1,10 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
 
     <data>
-
 
     </data>
 
@@ -14,18 +14,15 @@
         android:layout_height="match_parent"
         tools:openDrawer="start">
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:orientation="vertical">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                app:elevation="@dimen/standard_elevation">
+                android:theme="@style/AppTheme.AppBarOverlay">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -39,29 +36,12 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_contacts"
+            <FrameLayout
+                android:id="@+id/fl_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/list_padding"
-                android:paddingRight="@dimen/list_padding"
-                android:scrollbars="none"
-                app:layoutManager="LinearLayoutManager"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:layout_height="match_parent" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_person_add_white_24dp"
-                app:layout_anchor="@id/rv_contacts"
-                app:layout_anchorGravity="bottom|end"
-                app:layout_behavior="io.github.xhinliang.lib.widget.FABScrollBehavior" />
-
-
-        </android.support.design.widget.CoordinatorLayout>
+        </LinearLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"
@@ -69,7 +49,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/drawer_main" />
+            app:menu="@menu/drawer_main">
+
+        </android.support.design.widget.NavigationView>
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

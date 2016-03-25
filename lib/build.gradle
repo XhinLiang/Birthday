@@ -32,9 +32,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:preference-v14:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:preference-v14:23.2.1'
+    compile 'com.android.support:design:23.2.1'
     compile 'com.trello:rxlifecycle:0.3.0'
     compile 'com.trello:rxlifecycle-components:0.3.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
@@ -49,7 +49,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.github.bumptech.glide:okhttp-integration:1.3.1@aar'
-    compile project(':materialpreference')
+    compile project(':mdpreference')
     compile project(':material')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'io.realm:realm-android:0.87.3'

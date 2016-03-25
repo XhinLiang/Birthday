@@ -15,7 +15,7 @@ import rx.Observable;
  * xhinliang@gmail.com
  */
 public class BaseFragment extends RxFragment {
-    protected Observable<Void> setRxView(View view) {
+    protected Observable<Void> setRxClick(View view) {
         return RxView.clicks(view)
                 .throttleFirst(500, TimeUnit.MILLISECONDS);
     }

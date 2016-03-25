@@ -61,10 +61,10 @@ public class EditTextPreference extends DialogPreference {
     }
 
     @Override
-    protected void showDialog(Bundle state) {
+    protected void onShowDialog(Bundle state) {
         com.rey.material.dialog.Dialog.Builder mBuilder = new SimpleDialog.Builder()
                 .title(mDialogTitle)
-                .contentView(R.layout.dialog_input)
+                .contentView(R.layout.mp_edittext)
                 .positiveAction(mPositiveButtonText, new com.rey.material.dialog.Dialog.Action1() {
                     @Override
                     public void onAction(com.rey.material.dialog.Dialog dialog) {
@@ -85,7 +85,6 @@ public class EditTextPreference extends DialogPreference {
         }
         dialog.show();
     }
-
 
     @Override
     public boolean shouldDisableDependents() {

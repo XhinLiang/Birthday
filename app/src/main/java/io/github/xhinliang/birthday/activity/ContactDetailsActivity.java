@@ -99,7 +99,7 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     /**
-     * 新建联系任的情况
+     * 新建联系人的情况
      */
     private void initCreateEvent() {
         // 用户未设置图片时没有动画
@@ -396,7 +396,7 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void setTextArg(CharSequence title, CharSequence origin, final setTextCallback listener) {
-        Dialog dialog = new SimpleDialog.Builder()
+        android.app.Dialog dialog = new SimpleDialog.Builder()
                 .title(title)
                 .contentView(R.layout.dialog_input)
                 .positiveAction(getString(R.string.confirm), new Dialog.Action1() {
@@ -408,8 +408,10 @@ public class ContactDetailsActivity extends RealmActivity {
                 })
                 .negativeAction(getString(R.string.cancel), null)
                 .build(this);
+
         EditText editText = ((EditText) dialog.findViewById(R.id.custom_et));
         editText.setText(origin);
+        editText.setSelection(editText.getText() == null ? 0 : editText.getText().length() - 1);
         editText.setHint(title);
         dialog.show();
     }
