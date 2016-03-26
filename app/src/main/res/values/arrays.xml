@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="alert_first_entry">
+        <item>The same day</item>
+        <item>Three days before</item>
+        <item>A week before</item>
+        <item>Two weeks before</item>
+    </string-array>
+
+    <string-array name="alert_first_value">
+        <item>1</item>
+        <item>3</item>
+        <item>7</item>
+        <item>14</item>
+    </string-array>
 
     <string-array name="alert_time_entry">
-        <item>6:00</item>
-        <item>8:00</item>
-        <item>10:00</item>
-        <item>12:00</item>
-        <item>14:00</item>
-        <item>16:00</item>
-        <item>18:00</item>
-        <item>20:00</item>
-        <item>22:00</item>
+        <item>Three hours</item>
+        <item>Four hours</item>
+        <item>Eight hours</item>
+        <item>Half day</item>
     </string-array>
+
     <string-array name="alert_time_value">
+        <item>3</item>
         <item>6</item>
         <item>8</item>
-        <item>10</item>
         <item>12</item>
-        <item>14</item>
-        <item>16</item>
-        <item>18</item>
-        <item>20</item>
-        <item>22</item>
     </string-array>
+
+
 </resources>

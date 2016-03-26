@@ -17,14 +17,12 @@ import java.util.Set;
 public class MultiSelectListPreference extends DialogPreference {
 
     private CharSequence[] mEntries;
-    private CharSequence[] mEntryValues;
     private boolean mValueSet;
     private int selects;
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.list_preference, defStyleAttr, defStyleRes);
         mEntries = a.getTextArray(R.styleable.list_preference_entry_arr);
-        mEntryValues = a.getTextArray(R.styleable.list_preference_value_arr);
         a.recycle();
     }
 
@@ -51,7 +49,7 @@ public class MultiSelectListPreference extends DialogPreference {
 
     @Override
     protected void onShowDialog(Bundle state) {
-        if (mEntries == null || mEntryValues == null) {
+        if (mEntries == null ) {
             throw new IllegalStateException(
                     "MultiSelectListPreference requires an entries array and an entryValues array.");
         }
@@ -88,18 +86,6 @@ public class MultiSelectListPreference extends DialogPreference {
         return mEntries;
     }
 
-    public void setEntryValues(CharSequence[] entryValues) {
-        mEntryValues = entryValues;
-    }
-
-    public void setEntryValues(@ArrayRes int entryValuesResId) {
-        setEntryValues(getContext().getResources().getTextArray(entryValuesResId));
-    }
-
-    public CharSequence[] getEntryValues() {
-        return mEntryValues;
-    }
-
     public void setSelects(int indexes) {
         if (indexes != selects || !mValueSet) {
             selects = indexes;
@@ -125,7 +111,7 @@ public class MultiSelectListPreference extends DialogPreference {
         return selected;
     }
 
-    private Set<Integer> getArray(int bit) {
+    private static Set<Integer> getSet(int bit) {
         Set<Integer> set = new HashSet<>();
         int temp = 1;
         for (int i = 0; i < 32; ++i) {
@@ -137,13 +123,16 @@ public class MultiSelectListPreference extends DialogPreference {
         return set;
     }
 
+    public static Set<Integer> getSetByBit(int bit) {
+        return getSet(bit);
+    }
 
     public int getSelects() {
         return selects;
     }
 
     public Set<Integer> getSelectIndexes() {
-        return getArray(getSelects());
+        return getSet(getSelects());
     }
 
     public int[] getIndexes() {
@@ -158,7 +147,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     public Set<Integer> getValue() {
-        return getArray(selects);
+        return getSet(selects);
     }
 
 

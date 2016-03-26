@@ -11,6 +11,8 @@
 
     <style name="ScrollTheme" parent="AppTheme" />
 
+    <style name="MainActivityTheme" parent="AppTheme"/>
+
     <style name="MaterialButton">
         <item name="android:layout_height">@dimen/material_button_height</item>
         <item name="android:background">@drawable/bg_material_button_lite_blue</item>

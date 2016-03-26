@@ -1,5 +1,6 @@
 package io.github.xhinliang.mdpreference;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -56,6 +57,7 @@ public class Preference extends android.preference.Preference {
         typedArray.recycle();
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected View onCreateView(ViewGroup parent) {
         LayoutInflater layoutInflater =
@@ -72,6 +74,8 @@ public class Preference extends android.preference.Preference {
         return layout;
     }
 
+
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onBindView(View view) {
         CharSequence title = getTitle();
@@ -107,5 +111,39 @@ public class Preference extends android.preference.Preference {
     public void setIcon(Drawable icon) {
         super.setIcon(icon);
         this.icon = icon;
+    }
+
+    public String getAndroidAttribute(AttributeSet attrs, String name) {
+        if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", name) != null)
+            return attrs.getAttributeValue("http://schemas.android.com/apk/res/android", name);
+        return null;
+    }
+
+
+    /**
+     * Get a resource ID from a string
+     * @link https://github.com/android/platform_frameworks_base/blob/master/libs/androidfw/ResourceTypes.cpp#L62
+     */
+    public int formatResourceId(String value) {
+        if (value != null && value.matches("^@[0-9]+$")) {
+            // A valid resource ID string starts with "@" and is followed by an integer whose first two bytes are either 0x01 or 0x07
+            int resId = Integer.parseInt(value.substring(1, value.length()), 10);
+            if (Integer.toHexString(resId).length() != 8 || resId >> 24 != 0x01 || resId >> 24 != 0x7f) {
+                return resId;
+            }
+        }
+        return -1;
+    }
+
+    public String getStringAttribute(AttributeSet attrs, String name, String defaultValue) {
+        String value = getAndroidAttribute(attrs, name);
+        if (value == null) {
+            return defaultValue;
+        }
+        int resId = formatResourceId(value);
+        if (resId == -1) {
+            return value;
+        }
+        return getContext().getString(resId);
     }
 }

@@ -27,8 +27,6 @@ import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.birthday.rx.RxCheckBox;
-import io.github.xhinliang.birthday.util.XLog;
-import io.github.xhinliang.lib.activity.RealmActivity;
 import io.github.xhinliang.lib.util.ImageUtils;
 import io.github.xhinliang.lunarcalendar.LunarCalendar;
 import io.realm.RealmQuery;
@@ -219,6 +217,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         contact.setTelephone(binding.getTelephone());
                         contact.setPicture(pictureName);
                         contact.setIsLunar(binding.getIsLunar() == null ? false : binding.getIsLunar());
+                        contact.calculateDateRange();
                         contact = realm.copyToRealmOrUpdate(contact);
                         realm.commitTransaction();
                         return null;
@@ -257,9 +256,7 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean isChecked) {
-                        XLog.d(TAG, "CheckedChange");
                         binding.setIsLunar(isChecked);
-                        XLog.d(TAG, "isLunar " + binding.getIsLunar());
                     }
                 });
     }
@@ -411,7 +408,7 @@ public class ContactDetailsActivity extends RealmActivity {
 
         EditText editText = ((EditText) dialog.findViewById(R.id.custom_et));
         editText.setText(origin);
-        editText.setSelection(editText.getText() == null ? 0 : editText.getText().length() - 1);
+        editText.setSelection(editText.getText() == null ? 0 : editText.getText().length());
         editText.setHint(title);
         dialog.show();
     }

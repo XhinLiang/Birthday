@@ -56,5 +56,7 @@
     <string name="card_note_item_layout_key">wefewxcvd</string>
     <string name="right_hand_mode_summary">wefwef</string>
     <string name="right_hand_mode">sdfsdfsf</string>
+    <string name="key_alert_time">preference_key_alert_time</string>
+    <string name="key_first_alert">preference_key_first_alert</string>
 
 </resources>

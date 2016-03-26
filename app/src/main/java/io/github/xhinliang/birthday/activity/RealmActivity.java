@@ -1,8 +1,10 @@
-package io.github.xhinliang.lib.activity;
+package io.github.xhinliang.birthday.activity;
 
 import android.os.Bundle;
 
+import io.github.xhinliang.lib.activity.BaseActivity;
 import io.realm.Realm;
+
 
 /**
  * Created by xhinliang on 16-2-1.
@@ -16,6 +18,7 @@ public class RealmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
     }
+
 
     @Override
     protected void onDestroy() {

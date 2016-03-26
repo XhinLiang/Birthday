@@ -2,6 +2,7 @@ package io.github.xhinliang.birthday;
 
 import android.app.Application;
 
+import io.github.xhinliang.birthday.alert.AlertUtils;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -21,6 +22,7 @@ public class App extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
+        AlertUtils.init(this);
     }
 
 }

@@ -12,10 +12,10 @@ import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
 import io.github.xhinliang.birthday.R;
+import io.github.xhinliang.birthday.alert.RealmUpdateService;
 import io.github.xhinliang.birthday.databinding.ActivityMainBinding;
 import io.github.xhinliang.birthday.databinding.IncludeNavHeaderMainBinding;
 import io.github.xhinliang.birthday.fragment.ConstantsFragment;
-import io.github.xhinliang.lib.activity.RealmActivity;
 import rx.functions.Action1;
 
 public class MainActivity extends RealmActivity {
@@ -30,6 +30,7 @@ public class MainActivity extends RealmActivity {
         headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.include_nav_header_main, null, false);
         initView();
         initNavigationSelection();
+        startService(new Intent(this, RealmUpdateService.class));
     }
 
     private void initView() {

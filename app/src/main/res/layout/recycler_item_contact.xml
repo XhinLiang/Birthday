@@ -52,7 +52,7 @@
                     android:layout_height="26dip"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    android:text="@{MvvmUtils.getBirthday(contact.bornDay,contact.isLunar)}"
+                    android:text="@{contact.bornDayStr}"
                     android:textSize="12sp" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginStart="10dp"
                     android:singleLine="true"
-                    android:text="@{MvvmUtils.getDayRange(contact)}"
+                    android:text="@{MvvmUtils.getLong(contact.dayRange)}"
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     tools:text="5" />
