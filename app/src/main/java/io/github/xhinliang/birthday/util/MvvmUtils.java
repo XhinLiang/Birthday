@@ -11,7 +11,7 @@ import io.github.xhinliang.lunarcalendar.LunarCalendar;
  * Created by xhinliang on 16-1-29.
  * xhinliang@gmail.com
  */
-public class MvvmUtils {
+final public class MvvmUtils {
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     /**

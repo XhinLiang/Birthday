@@ -9,7 +9,7 @@ import io.github.xhinliang.birthday.BuildConfig;
  * Created by xhinliang on 16-2-1.
  * xhinliang@gmail.com
  */
-public class XLog {
+final public class XLog {
     public static void d(String TAG, String text) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, text);

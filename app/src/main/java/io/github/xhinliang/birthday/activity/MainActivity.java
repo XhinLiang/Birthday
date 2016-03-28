@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
@@ -88,6 +89,11 @@ public class MainActivity extends RealmActivity {
         if (constantsFragment != null) {
             transaction.hide(constantsFragment);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

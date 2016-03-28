@@ -41,6 +41,7 @@ public class ConstantsFragment extends RxFragment<FragmentContactsBinding> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        setHasOptionsMenu(true);
     }
 
     @Override

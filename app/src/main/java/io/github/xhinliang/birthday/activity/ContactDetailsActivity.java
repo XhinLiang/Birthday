@@ -27,6 +27,7 @@ import io.github.xhinliang.birthday.databinding.ActivityContactDetailsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
 import io.github.xhinliang.birthday.rx.RxCheckBox;
+import io.github.xhinliang.birthday.util.XLog;
 import io.github.xhinliang.lib.util.ImageUtils;
 import io.github.xhinliang.lunarcalendar.LunarCalendar;
 import io.realm.RealmQuery;
@@ -44,9 +45,8 @@ import rx.schedulers.Schedulers;
 public class ContactDetailsActivity extends RealmActivity {
 
     private static final int REQUEST_SELECT_PIC = 0x100;
-    private static final String DIALOG_TAG = "DatePickerDialog";
-    private static final String TAG = "ContactDetailsActivity";
     public static final String EXTRA_CONTACT = "Contact";
+    private static final String TAG = "ContactDetailsActivity";
 
 
     private ActivityContactDetailsBinding binding;
@@ -63,6 +63,7 @@ public class ContactDetailsActivity extends RealmActivity {
     }
 
     private void checkIntent() {
+        XLog.d(TAG, "checkIntent");
         Parcelable parcelable = getIntent().getParcelableExtra(EXTRA_CONTACT);
         if (parcelable == null) {
             // 新建联系人的情况
@@ -87,7 +88,6 @@ public class ContactDetailsActivity extends RealmActivity {
         binding.ivPicture.setAnimate(true);
         binding.fabDone.setImageResource(R.drawable.ic_create_white_24dp);
         setRxClick(binding.fabDone)
-                .compose(this.<Void>bindToLifecycle())
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
@@ -228,13 +228,14 @@ public class ContactDetailsActivity extends RealmActivity {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        showSimpleDialog(R.string.result, R.string.success, new Dialog.Action1() {
-                            @Override
-                            public void onAction(Dialog dialog) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        });
+                        // Memory Leaks here
+//                        showSimpleDialog(R.string.result, R.string.success, new Dialog.Action1() {
+//                            @Override
+//                            public void onAction(Dialog dialog) {
+//                                dialog.dismiss();
+                        finish();
+//                            }
+//                        });
                     }
                 });
 
@@ -247,6 +248,7 @@ public class ContactDetailsActivity extends RealmActivity {
                         Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
                         startActivityForResult(intent, REQUEST_SELECT_PIC);
+                        XLog.d(TAG, "ivPicture click");
                     }
                 });
 
@@ -278,8 +280,12 @@ public class ContactDetailsActivity extends RealmActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK) {
+            // 在查看模式转到编辑模式的时候，所有的 RxSubscription 都会不明原因地自动解绑
+            // 所以这里要再初始化一次
+            initCreateEvent();
             return;
+        }
         switch (requestCode) {
             case REQUEST_SELECT_PIC:
                 handlePicture(intent);

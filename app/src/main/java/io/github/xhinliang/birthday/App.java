@@ -22,6 +22,7 @@ public class App extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
+
         AlertUtils.init(this);
     }
 

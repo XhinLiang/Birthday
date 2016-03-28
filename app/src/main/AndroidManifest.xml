@@ -36,11 +36,15 @@
 
         <service android:name=".alert.AlertService" />
 
+        <service android:name=".alert.RealmUpdateService" />
+
         <receiver android:name=".alert.AlertReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>
