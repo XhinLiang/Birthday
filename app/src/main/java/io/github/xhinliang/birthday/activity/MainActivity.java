@@ -31,6 +31,7 @@ public class MainActivity extends RealmActivity {
         headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.include_nav_header_main, null, false);
         initView();
         initNavigationSelection();
+        // 每次进入主界面更新一次数据库（距离生日时间）
         startService(new Intent(this, RealmUpdateService.class));
     }
 

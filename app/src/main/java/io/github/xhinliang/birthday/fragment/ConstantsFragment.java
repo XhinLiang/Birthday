@@ -3,8 +3,8 @@ package io.github.xhinliang.birthday.fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +20,7 @@ import org.parceler.Parcels;
 import io.github.xhinliang.birthday.R;
 import io.github.xhinliang.birthday.activity.ContactDetailsActivity;
 import io.github.xhinliang.birthday.adapter.ContactAdapter;
+import io.github.xhinliang.birthday.alert.RealmUpdateService;
 import io.github.xhinliang.birthday.databinding.FragmentContactsBinding;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.model.Group;
@@ -32,6 +33,9 @@ import rx.functions.Action1;
  * XhinLiang@gmail.com
  */
 public class ConstantsFragment extends RxFragment<FragmentContactsBinding> {
+
+    private static final int REFRESH_TIME = 1000;
+
     private RealmResults<Contact> contacts;
     private RealmResults<Group> groups;
     private ContactAdapter adapter;
@@ -50,11 +54,10 @@ public class ConstantsFragment extends RxFragment<FragmentContactsBinding> {
         realm.close();
     }
 
-    @Nullable
+
     @Override
     public FragmentContactsBinding onCreateBinding
-            (@NonNull LayoutInflater inflater,
-             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_contacts, container, false);
     }
 
@@ -77,6 +80,19 @@ public class ConstantsFragment extends RxFragment<FragmentContactsBinding> {
             }
         });
         binding.rvContacts.setAdapter(adapter);
+        binding.srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getActivity().startService(new Intent(getActivity(), RealmUpdateService.class));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.srlRefresh.setRefreshing(false);
+                    }
+                }, REFRESH_TIME);
+            }
+        });
     }
 
     private void initEvent() {

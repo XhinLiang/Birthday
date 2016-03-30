@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.rey.material.dialog.Dialog;
 import com.rey.material.dialog.SimpleDialog;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import io.github.xhinliang.birthday.alert.AlertUtils;
 import io.github.xhinliang.birthday.model.Contact;
 import io.github.xhinliang.birthday.util.XLog;
+import io.github.xhinliang.lib.util.CalendarUtils;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -31,8 +34,14 @@ public class JustTest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, getDayRange(new GregorianCalendar(2016, Calendar.FEBRUARY, 24)));
+    }
 
+    public static String getDayRange(Calendar bornCalendar) {
+        return CalendarUtils.computeLunarRange(bornCalendar) + "";
+    }
 
+    private void am() {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertUtils.class);
         PendingIntent sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
